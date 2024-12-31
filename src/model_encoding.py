@@ -6,8 +6,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 bi_model = SentenceTransformer("svalabs/bi-electra-ms-marco-german-uncased")
 
-K = 3 # number of top ranks to retrieve
-
 # specify documents and queries
 docs = [
     "Auf Netflix gibt es endlich die neue Staffel meiner Lieblingsserie.",
@@ -52,52 +50,23 @@ Das komplette erste Thema wird verändert wiederholt. Die Doppelanlage, Paarung 
 
 long_text = long_text.replace('\n', ' ')
 
-# encode documents and queries
-start_time = time.perf_counter()
-features_docs = bi_model.encode(docs)
-end_time = time.perf_counter()
-print('documents encoded in', end_time - start_time, 'seconds')
+features = bi_model.encode('some text')
 
 
-start_time = time.perf_counter()
-features_queries = bi_model.encode(queries)
-end_time = time.perf_counter()
-print('queries encoded in', end_time - start_time, 'seconds')
+def main():
+    tokenizer = bi_model.tokenizer
+    words = long_text.split(' ')
+    for l in [300, 400]:
+        short_text = ' '.join(words[:l])
+        tokens = tokenizer.encode(short_text, add_special_tokens=True)
+        print(f"words={l}  #tokens={len(tokens)}")
 
-# compute pairwise cosine similarity scores
-sim = cosine_similarity(features_queries, features_docs)
+    # Get the tokenizer
 
-# print results
-# for i, query in enumerate(queries):
-#     ranks = np.argsort(-sim[i])
-#     print("Query:", query)
-#     for j, r in enumerate(ranks[:K]):
-#         print(f"[{j}: {sim[i, r]: .3f}]", docs[r])
-#     print("-"*96)
+    # Get the maximum content length
+    max_length = tokenizer.model_max_length
+    print(f"Maximum content length: {max_length}")
 
 
-while False:
-    query = input("Enter a query: ")
-    if query in ('exit', ''):
-        break
-    start_time = time.perf_counter()
-    query_features = bi_model.encode([query])
-    end_time = time.perf_counter()
-    print('query encoded in', end_time - start_time, 'seconds')
-
-
-for l in [100, 200, 300, 400, 500, 750, 1000, 1500, 2000, 3000]:
-    short_text = ' '.join(long_text.split(' ')[:l])
-    short_text2 = ' '.join(short_text.split(' ')[:-1])
-    start_time = time.perf_counter()
-    features = bi_model.encode([short_text, short_text2])
-    end_time = time.perf_counter()
-    print('---------')
-    print('l:', l)
-    print('long text encoded in', end_time - start_time, 'seconds')
-    print('features:', features.shape, features.dtype)
-    print('same: ', np.all(np.equal(features[0], features[1])))
-
-
-print('#########')
-print(bi_model.model_card_data)
+if __name__ == '__main__':
+    main()
