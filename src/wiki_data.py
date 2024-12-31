@@ -1,10 +1,13 @@
 import bz2
 import re
+import time
 from typing import Generator
 
 from tqdm import tqdm
 import mwxml
 import wikitextparser as wtp
+
+from tables import Table
 
 DATA_PATH = 'data/dewiki-latest-pages-articles-multistream1.xml-p1p297012.bz2'
 
@@ -56,23 +59,46 @@ def process_page(title: str, text: str) -> Generator[TextPart | SectionHeader, N
 
 
 def main():
+    table = Table(('Title', 'Site', 'Parse', 'Process'), float_precision=4)
     with bz2.open(DATA_PATH, 'rt') as f:
         dump = mwxml.Dump.from_file(f)
         counter = 0
-        for site_index, site in enumerate(tqdm(dump)):
+        sum_site = 0
+        sum_parse = 0
+        sum_process = 0
+        start_time = time.perf_counter()
+        for site_index, site in enumerate(dump):
             revision = next(site)
-            # print('#'*80)
-            print(site.title)
-            for part in process_page(site.title, wtp.parse(revision.text).plain_text()):
+            end_time = time.perf_counter()
+            site_duration = end_time - start_time
+            sum_site += site_duration
+
+            start_time = time.perf_counter()
+            parsed = wtp.parse(revision.text).plain_text()
+            end_time = time.perf_counter()
+            parse_duration = end_time - start_time
+            sum_parse += parse_duration
+
+            start_time = time.perf_counter()
+            for part in process_page(site.title, parsed):
                 counter += 1
                 # if isinstance(part, TextPart):
                     # print(part.content)
                     # print(part.link)
                 # elif isinstance(part, SectionHeader):
                     # print('#', part.title)
-            # if site_index == 7:
-            #     break
-    print(counter)
+            end_time = time.perf_counter()
+            process_duration = end_time - start_time
+            sum_process += process_duration
+
+            table.line(title=site.title, site=site_duration, parse=parse_duration, process=process_duration)
+
+            if site_index == 2000:
+                break
+            start_time = time.perf_counter()
+
+    table.line(title='SUM', site=sum_site, parse=sum_parse, process=sum_process)
+    print(table)
 
 
 if __name__ == '__main__':

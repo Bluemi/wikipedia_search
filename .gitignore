@@ -1,6 +1,7 @@
 .idea
 /data
 /log.txt
+target
 
 ########### Python ################
 # Byte-compiled / optimized / DLL files
