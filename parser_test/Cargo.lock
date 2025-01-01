@@ -193,6 +193,7 @@ dependencies = [
  "bzip2",
  "mediawiki_parser",
  "quick-xml",
+ "unicode-segmentation",
 ]
 
 [[package]]

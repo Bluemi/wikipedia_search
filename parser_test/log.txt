@@ -1,0 +1,4589 @@
+title: Alan Smithee
+token: FormatBold
+
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee
+token: FormatBold
+
+token: Space
+ 
+token: Word
+steht
+token: Space
+ 
+token: Word
+als
+token: Space
+ 
+token: Link
+[[
+token: Word
+Pseudonym
+token: Link
+]]
+token: Space
+ 
+token: Word
+für
+token: Space
+ 
+token: Word
+einen
+token: Space
+ 
+token: Word
+fiktiven
+token: Space
+ 
+token: Word
+Regisseur,
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Filme
+token: Space
+ 
+token: Word
+verantwortet,
+token: Space
+ 
+token: Word
+bei
+token: Space
+ 
+token: Word
+denen
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+eigentliche
+token: Space
+ 
+token: Link
+[[
+token: Word
+Regisseur
+token: Link
+]]
+token: Space
+ 
+token: Word
+seinen
+token: Space
+ 
+token: Word
+Namen
+token: Space
+ 
+token: Word
+nicht
+token: Space
+ 
+token: Word
+mit
+token: Space
+ 
+token: Word
+dem
+token: Space
+ 
+token: Word
+Werk
+token: Space
+ 
+token: Word
+in
+token: Space
+ 
+token: Word
+Verbindung
+token: Space
+ 
+token: Word
+gebracht
+token: Space
+ 
+token: Word
+haben
+token: Space
+ 
+token: Word
+möchte.
+token: Space
+ 
+token: Word
+Von
+token: Space
+ 
+token: Word
+1968
+token: Space
+ 
+token: Word
+bis
+token: Space
+ 
+token: Word
+2000
+token: Space
+ 
+token: Word
+wurde
+token: Space
+ 
+token: Word
+es
+token: Space
+ 
+token: Word
+von
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Link
+[[
+token: Word
+Directors
+token: Space
+ 
+token: Word
+Guild
+token: Space
+ 
+token: Word
+of
+token: Space
+ 
+token: Word
+America
+token: Link
+]]
+token: Space
+ 
+token: Word
+(DGA)
+token: Space
+ 
+token: Word
+für
+token: Space
+ 
+token: Word
+solche
+token: Space
+ 
+token: Word
+Situationen
+token: Space
+ 
+token: Word
+empfohlen.
+token: LowerThan
+<
+token: Word
+ref
+token: GreaterThan
+>
+token: Template
+{{
+token: Word
+Internetquelle
+token: Space
+ 
+token: Pipe
+|
+token: Word
+url
+token: Header
+=
+token: Word
+https://articles.latimes.com/2000/jan/15/entertainment/ca-54271
+token: Space
+ 
+token: Pipe
+|
+token: Word
+titel
+token: Header
+=
+token: Word
+Name
+token: Space
+ 
+token: Word
+of
+token: Space
+ 
+token: Word
+Director
+token: Space
+ 
+token: Word
+Smithee
+token: Space
+ 
+token: Word
+Isn't
+token: Space
+ 
+token: Word
+What
+token: Space
+ 
+token: Word
+It
+token: Space
+ 
+token: Word
+Used
+token: Space
+ 
+token: Word
+to
+token: Space
+ 
+token: Word
+Be
+token: Space
+ 
+token: Pipe
+|
+token: Word
+zugriff
+token: Header
+=
+token: Word
+2024-04-05
+token: Space
+ 
+token: Pipe
+|
+token: Word
+datum
+token: Header
+=
+token: Word
+2000-01-15
+token: Space
+ 
+token: Pipe
+|
+token: Word
+autor
+token: Header
+=
+token: Word
+Amy
+token: Space
+ 
+token: Word
+Wallace
+token: Space
+ 
+token: Pipe
+|
+token: Word
+offline
+token: Header
+=
+token: Word
+2021-10-30
+token: Space
+ 
+token: Pipe
+|
+token: Word
+archiv-url
+token: Header
+=
+token: Word
+https://web.archive.org/web/20210513125513/https://www.latimes.com/archives/la-xpm-2000-jan-15-ca-54271-story.html
+token: Template
+}}
+token: LowerThan
+<
+token: Word
+/ref
+token: GreaterThan
+>
+token: Paragraph
+
+
+token: Word
+Alternative
+token: Space
+ 
+token: Word
+Schreibweisen
+token: Space
+ 
+token: Word
+sind
+token: Space
+ 
+token: Word
+unter
+token: Space
+ 
+token: Word
+anderem
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+Ursprungsvariante
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Al
+token: FormatBold
+
+token: Word
+len
+token: FormatBold
+
+token: Space
+ 
+token: Word
+Smithee
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+sowie
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Sm
+token: FormatBold
+
+token: Word
+y
+token: FormatBold
+
+token: Word
+thee
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+A
+token: FormatBold
+
+token: Word
+dam
+token: FormatBold
+
+token: Space
+ 
+token: Word
+Smithee
+token: FormatItalic
+
+token: Word
+.
+token: Space
+ 
+token: Word
+Auch
+token: Space
+ 
+token: Word
+zwei
+token: Space
+ 
+token: Word
+teilweise
+token: Space
+ 
+token: Word
+asiatisch
+token: Space
+ 
+token: Word
+anmutende
+token: Space
+ 
+token: Word
+Schreibweisen
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smi
+token: Space
+ 
+token: Word
+Thee
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Sumishii
+token: Space
+ 
+token: Word
+Aran
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+gehören
+token: Space
+ 
+token: Word
+laut
+token: Space
+ 
+token: Link
+[[
+token: Word
+IMDb
+token: Link
+]]
+token: Space
+ 
+token: Word
+dazu.
+token: LowerThan
+<
+token: Word
+ref
+token: Space
+ 
+token: Word
+name
+token: Header
+=
+token: Word
+&quot;IMDb&quot;
+token: GreaterThan
+>
+token: Word
+[https://www.imdb.com/name/nm0000647/
+token: Space
+ 
+token: Word
+Eigener
+token: Space
+ 
+token: Word
+Eintrag
+token: Space
+ 
+token: Word
+für
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+in
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+IMDb]
+token: LowerThan
+<
+token: Word
+/ref
+token: GreaterThan
+>
+token: Paragraph
+
+
+token: Header
+==
+token: Space
+ 
+token: Word
+Geschichte
+token: Space
+ 
+token: Header
+==
+token: Word
+
+
+token: Header
+===
+token: Space
+ 
+token: Word
+Entstehung
+token: Space
+ 
+token: Header
+===
+token: Word
+
+Das
+token: Space
+ 
+token: Word
+Pseudonym
+token: Space
+ 
+token: Word
+entstand
+token: Space
+ 
+token: Word
+1968
+token: Space
+ 
+token: Word
+infolge
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Arbeiten
+token: Space
+ 
+token: Word
+am
+token: Space
+ 
+token: Word
+Western-Film
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Death
+token: Space
+ 
+token: Word
+of
+token: Space
+ 
+token: Word
+a
+token: Space
+ 
+token: Word
+Gunfighter
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+(deutscher
+token: Space
+ 
+token: Word
+Titel
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Frank
+token: Space
+ 
+token: Word
+Patch
+token: Space
+ 
+token: Word
+–
+token: Space
+ 
+token: Word
+Deine
+token: Space
+ 
+token: Word
+Stunden
+token: Space
+ 
+token: Word
+sind
+token: Space
+ 
+token: Word
+gezählt
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+).
+token: Space
+ 
+token: Word
+Regisseur
+token: Space
+ 
+token: Link
+[[
+token: Word
+Robert
+token: Space
+ 
+token: Word
+Totten
+token: Link
+]]
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: Word
+Hauptdarsteller
+token: Space
+ 
+token: Link
+[[
+token: Word
+Richard
+token: Space
+ 
+token: Word
+Widmark
+token: Link
+]]
+token: Space
+ 
+token: Word
+gerieten
+token: Space
+ 
+token: Word
+in
+token: Space
+ 
+token: Word
+einen
+token: Space
+ 
+token: Word
+Streit,
+token: Space
+ 
+token: Word
+woraufhin
+token: Space
+ 
+token: Link
+[[
+token: Word
+Don
+token: Space
+ 
+token: Word
+Siegel
+token: Link
+]]
+token: Space
+ 
+token: Word
+als
+token: Space
+ 
+token: Word
+neuer
+token: Space
+ 
+token: Word
+Regisseur
+token: Space
+ 
+token: Word
+eingesetzt
+token: Space
+ 
+token: Word
+wurde.
+token: Paragraph
+
+
+token: Word
+Der
+token: Space
+ 
+token: Word
+Film
+token: Space
+ 
+token: Word
+trug
+token: Space
+ 
+token: Word
+nach
+token: Space
+ 
+token: Word
+Abschluss
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Arbeiten
+token: Space
+ 
+token: Word
+noch
+token: Space
+ 
+token: Word
+deutlich
+token: Space
+ 
+token: Word
+Tottens
+token: Space
+ 
+token: Link
+[[
+token: Word
+Manier
+token: Space
+ 
+token: Word
+(Stil)
+token: Pipe
+|
+token: Word
+Handschrift
+token: Link
+]]
+token: Word
+,
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+auch
+token: Space
+ 
+token: Word
+mehr
+token: Space
+ 
+token: Word
+Drehtage
+token: Space
+ 
+token: Word
+als
+token: Space
+ 
+token: Word
+Siegel
+token: Space
+ 
+token: Word
+daran
+token: Space
+ 
+token: Word
+gearbeitet
+token: Space
+ 
+token: Word
+hatte,
+token: Space
+ 
+token: Word
+weshalb
+token: Space
+ 
+token: Word
+dieser
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+Nennung
+token: Space
+ 
+token: Word
+seines
+token: Space
+ 
+token: Word
+Namens
+token: Space
+ 
+token: Word
+als
+token: Space
+ 
+token: Word
+Regisseur
+token: Space
+ 
+token: Word
+ablehnte.
+token: Space
+ 
+token: Word
+Totten
+token: Space
+ 
+token: Word
+selbst
+token: Space
+ 
+token: Word
+lehnte
+token: Space
+ 
+token: Word
+aber
+token: Space
+ 
+token: Word
+ebenfalls
+token: Space
+ 
+token: Word
+ab.
+token: Space
+ 
+token: Word
+Als
+token: Space
+ 
+token: Word
+Lösung
+token: Space
+ 
+token: Word
+wurde
+token: Space
+ 
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Allen
+token: Space
+ 
+token: Word
+Smithee
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+als
+token: Space
+ 
+token: Word
+ein
+token: Space
+ 
+token: Word
+möglichst
+token: Space
+ 
+token: Word
+einzigartiger
+token: Space
+ 
+token: Word
+Name
+token: Space
+ 
+token: Word
+gewählt.
+token: LowerThan
+<
+token: Word
+ref
+token: GreaterThan
+>
+token: Word
+[http://www.imdb.com/name/nm0000647/bio
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Biography
+token: Space
+ 
+token: Word
+for
+token: Space
+ 
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee
+token: FormatItalic
+
+token: Word
+]
+token: Space
+ 
+token: Word
+in
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Internet
+token: Space
+ 
+token: Word
+Movie
+token: Space
+ 
+token: Word
+Database
+token: LowerThan
+<
+token: Word
+/ref
+token: GreaterThan
+>
+token: Paragraph
+
+
+token: Word
+In
+token: Space
+ 
+token: Word
+den
+token: Space
+ 
+token: Word
+zeitgenössischen
+token: Space
+ 
+token: Word
+Kritiken
+token: Space
+ 
+token: Word
+wurde
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Regisseur
+token: Space
+ 
+token: Word
+u.&amp;nbsp;a.
+token: Space
+ 
+token: Word
+von
+token: Space
+ 
+token: Link
+[[
+token: Word
+Roger
+token: Space
+ 
+token: Word
+Ebert
+token: Link
+]]
+token: Space
+ 
+token: Word
+mit
+token: Space
+ 
+token: Word
+den
+token: Space
+ 
+token: Word
+Worten
+token: Space
+ 
+token: Word
+gelobt:
+token: Space
+ 
+token: Word
+
+
+token: Template
+{{
+token: Word
+Zitat
+
+token: Space
+ 
+token: Pipe
+|
+token: Word
+Text
+token: Header
+=
+token: Word
+Director
+token: Space
+ 
+token: Word
+Allen
+token: Space
+ 
+token: Word
+Smithee,
+token: Space
+ 
+token: Word
+a
+token: Space
+ 
+token: Word
+name
+token: Space
+ 
+token: Word
+I’m
+token: Space
+ 
+token: Word
+not
+token: Space
+ 
+token: Word
+familiar
+token: Space
+ 
+token: Word
+with,
+token: Space
+ 
+token: Word
+allows
+token: Space
+ 
+token: Word
+his
+token: Space
+ 
+token: Word
+story
+token: Space
+ 
+token: Word
+to
+token: Space
+ 
+token: Word
+unfold
+token: Space
+ 
+token: Word
+naturally.
+token: Space
+ 
+token: Word
+He
+token: Space
+ 
+token: Word
+never
+token: Space
+ 
+token: Word
+preaches,
+token: Space
+ 
+token: Word
+and
+token: Space
+ 
+token: Word
+he
+token: Space
+ 
+token: Word
+never
+token: Space
+ 
+token: Word
+lingers
+token: Space
+ 
+token: Word
+on
+token: Space
+ 
+token: Word
+the
+token: Space
+ 
+token: Word
+obvious.
+token: Space
+ 
+token: Word
+His
+token: Space
+ 
+token: Word
+characters
+token: Space
+ 
+token: Word
+do
+token: Space
+ 
+token: Word
+what
+token: Space
+ 
+token: Word
+they
+token: Space
+ 
+token: Word
+have
+token: Space
+ 
+token: Word
+to
+token: Space
+ 
+token: Word
+do.
+token: LowerThan
+<
+token: Word
+ref
+token: GreaterThan
+>
+token: Word
+rogerebert.
+token: Link
+[[
+token: Word
+Chicago
+token: Space
+ 
+token: Word
+Sun-Times
+token: Pipe
+|
+token: Word
+suntimes
+token: Link
+]]
+token: Word
+.com:
+token: Space
+ 
+token: Word
+[https://www.rogerebert.com/reviews/death-of-a-gunfighter-1969
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Death
+token: Space
+ 
+token: Word
+of
+token: Space
+ 
+token: Word
+a
+token: Space
+ 
+token: Word
+Gunfighter
+token: FormatItalic
+
+token: Word
+],
+token: Space
+ 
+token: Word
+zuletzt
+token: Space
+ 
+token: Word
+geprüft
+token: Space
+ 
+token: Word
+am
+token: Space
+ 
+token: Word
+2.
+token: Space
+ 
+token: Word
+April
+token: Space
+ 
+token: Word
+2011
+token: LowerThan
+<
+token: Word
+/ref
+token: GreaterThan
+>
+token: Word
+
+
+token: Space
+ 
+token: Pipe
+|
+token: Word
+Sprache
+token: Header
+=
+token: Word
+en
+
+token: Space
+ 
+token: Pipe
+|
+token: Word
+Übersetzung
+token: Header
+=
+token: Word
+Regisseur
+token: Space
+ 
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee,
+token: Space
+ 
+token: Word
+ein
+token: Space
+ 
+token: Word
+Name,
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+mir
+token: Space
+ 
+token: Word
+nicht
+token: Space
+ 
+token: Word
+vertraut
+token: Space
+ 
+token: Word
+ist,
+token: Space
+ 
+token: Word
+erlaubt
+token: Space
+ 
+token: Word
+es
+token: Space
+ 
+token: Word
+seiner
+token: Space
+ 
+token: Word
+Handlung,
+token: Space
+ 
+token: Word
+sich
+token: Space
+ 
+token: Word
+natürlich
+token: Space
+ 
+token: Word
+zu
+token: Space
+ 
+token: Word
+entfalten.
+token: Space
+ 
+token: Word
+Er
+token: Space
+ 
+token: Word
+predigt
+token: Space
+ 
+token: Word
+niemals,
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: Word
+er
+token: Space
+ 
+token: Word
+verweilt
+token: Space
+ 
+token: Word
+nie
+token: Space
+ 
+token: Word
+beim
+token: Space
+ 
+token: Word
+Offensichtlichen.
+token: Space
+ 
+token: Word
+Seine
+token: Space
+ 
+token: Word
+Charaktere
+token: Space
+ 
+token: Word
+tun,
+token: Space
+ 
+token: Word
+was
+token: Space
+ 
+token: Word
+sie
+token: Space
+ 
+token: Word
+tun
+token: Space
+ 
+token: Word
+müssen.
+token: Template
+}}
+token: Paragraph
+
+
+token: Header
+===
+token: Space
+ 
+token: Word
+Aufdeckung
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: Word
+Abkehr
+token: Space
+ 
+token: Header
+===
+token: Word
+
+1997
+token: Space
+ 
+token: Word
+kam
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+Parodie
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+An
+token: Space
+ 
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee
+token: Space
+ 
+token: Word
+Film:
+token: Space
+ 
+token: Word
+Burn
+token: Space
+ 
+token: Word
+Hollywood
+token: Space
+ 
+token: Word
+Burn
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+(deutscher
+token: Space
+ 
+token: Word
+Titel
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Fahr
+token: Space
+ 
+token: Word
+zur
+token: Space
+ 
+token: Word
+Hölle
+token: Space
+ 
+token: Word
+Hollywood
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+)
+token: Space
+ 
+token: Word
+in
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+Kinos,
+token: Space
+ 
+token: Word
+was
+token: Space
+ 
+token: Word
+das
+token: Space
+ 
+token: Word
+Pseudonym
+token: Space
+ 
+token: Word
+einem
+token: Space
+ 
+token: Word
+größeren
+token: Space
+ 
+token: Word
+Publikum
+token: Space
+ 
+token: Word
+bekannt
+token: Space
+ 
+token: Word
+machte,
+token: Space
+ 
+token: Word
+nicht
+token: Space
+ 
+token: Word
+zuletzt
+token: Space
+ 
+token: Word
+weil
+token: Space
+ 
+token: Link
+[[
+token: Word
+Arthur
+token: Space
+ 
+token: Word
+Hiller
+token: Space
+ 
+token: Word
+(Regisseur)
+token: Pipe
+|
+token: Word
+Arthur
+token: Space
+ 
+token: Word
+Hiller
+token: Link
+]]
+token: Word
+,
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+eigentliche
+token: Space
+ 
+token: Word
+Regisseur
+token: Space
+ 
+token: Word
+des
+token: Space
+ 
+token: Word
+Films,
+token: Space
+ 
+token: Word
+selbst
+token: Space
+ 
+token: Word
+seinen
+token: Space
+ 
+token: Word
+Namen
+token: Space
+ 
+token: Word
+zurückzog
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: Word
+analog
+token: Space
+ 
+token: Word
+zum
+token: Space
+ 
+token: Word
+Filmtitel
+token: Space
+ 
+token: Word
+das
+token: Space
+ 
+token: Word
+Pseudonym
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+benutzte.
+token: Space
+ 
+token: Word
+Der
+token: Space
+ 
+token: Word
+Film
+token: Space
+ 
+token: Word
+gilt
+token: Space
+ 
+token: Word
+als
+token: Space
+ 
+token: Word
+einer
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+schlechtesten
+token: Space
+ 
+token: Word
+Filme
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+1990er
+token: Space
+ 
+token: Word
+Jahre
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: Word
+gewann
+token: Space
+ 
+token: Word
+fünf
+token: Space
+ 
+token: Link
+[[
+token: Word
+Goldene
+token: Space
+ 
+token: Word
+Himbeere
+token: Link
+]]
+token: Word
+n.
+token: Paragraph
+
+
+token: Word
+Der
+token: Space
+ 
+token: Word
+Film
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Supernova
+token: Space
+ 
+token: Word
+(2000)
+token: Pipe
+|
+token: Word
+Supernova
+token: Link
+]]
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+ist
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+erste
+token: Space
+ 
+token: Word
+Post-Smithee-Film,
+token: Space
+ 
+token: Word
+dort
+token: Space
+ 
+token: Word
+führte
+token: Space
+ 
+token: Word
+ein
+token: Space
+ 
+token: Word
+gewisser
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Thomas
+token: Space
+ 
+token: Word
+Lee
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+alias
+token: Space
+ 
+token: Link
+[[
+token: Word
+Walter
+token: Space
+ 
+token: Word
+Hill
+token: Link
+]]
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+Regie.
+
+token: Comment
+
+token: Space
+ 
+token: Word
+fand
+token: Space
+ 
+token: Word
+nur
+token: Space
+ 
+token: Word
+einen
+token: Space
+ 
+token: Word
+für
+token: Space
+ 
+token: Word
+den
+token: Space
+ 
+token: Word
+von
+token: Space
+ 
+token: Word
+1990,
+token: Space
+ 
+token: Word
+siehe
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Das
+token: Space
+ 
+token: Word
+Kindermädchen
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+:
+„Smithee
+token: Space
+ 
+token: Word
+wurde
+token: Space
+ 
+token: Word
+allerdings
+token: Space
+ 
+token: Word
+auch
+token: Space
+ 
+token: Word
+nach
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Supernova
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+gesichtet,
+token: Space
+ 
+token: Word
+in
+token: Space
+ 
+token: Word
+einem
+token: Space
+ 
+token: Word
+Film
+token: Space
+ 
+token: Word
+namens
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+The
+token: Space
+ 
+token: Word
+Guardian
+token: FormatItalic
+
+token: Word
+.“
+
+token: Comment
+
+token: Paragraph
+
+
+token: Header
+==
+token: Space
+ 
+token: Word
+Verwendung
+token: Space
+ 
+token: Header
+==
+token: Word
+
+Die
+token: Space
+ 
+token: Word
+Verwendung
+token: Space
+ 
+token: Word
+dieses
+token: Space
+ 
+token: Word
+oder
+token: Space
+ 
+token: Word
+eines
+token: Space
+ 
+token: Word
+anderen
+token: Space
+ 
+token: Word
+Pseudonyms
+token: Space
+ 
+token: Word
+ist
+token: Space
+ 
+token: Word
+für
+token: Space
+ 
+token: Word
+Mitglieder
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+DGA
+token: Space
+ 
+token: Word
+streng
+token: Space
+ 
+token: Word
+reglementiert.
+token: Space
+ 
+token: Word
+Ein
+token: Space
+ 
+token: Word
+Regisseur,
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+für
+token: Space
+ 
+token: Word
+einen
+token: Space
+ 
+token: Word
+von
+token: Space
+ 
+token: Word
+ihm
+token: Space
+ 
+token: Word
+gedrehten
+token: Space
+ 
+token: Word
+Film
+token: Space
+ 
+token: Word
+seinen
+token: Space
+ 
+token: Word
+Namen
+token: Space
+ 
+token: Word
+nicht
+token: Space
+ 
+token: Word
+hergeben
+token: Space
+ 
+token: Word
+möchte,
+token: Space
+ 
+token: Word
+hat
+token: Space
+ 
+token: Word
+nach
+token: Space
+ 
+token: Word
+Sichtung
+token: Space
+ 
+token: Word
+des
+token: Space
+ 
+token: Word
+fertigen
+token: Space
+ 
+token: Word
+Films
+token: Space
+ 
+token: Word
+drei
+token: Space
+ 
+token: Word
+Tage
+token: Space
+ 
+token: Word
+Zeit,
+token: Space
+ 
+token: Word
+anzuzeigen,
+token: Space
+ 
+token: Word
+dass
+token: Space
+ 
+token: Word
+er
+token: Space
+ 
+token: Word
+ein
+token: Space
+ 
+token: Word
+Pseudonym
+token: Space
+ 
+token: Word
+verwenden
+token: Space
+ 
+token: Word
+möchte.
+token: Space
+ 
+token: Word
+Der
+token: Space
+ 
+token: Word
+Rat
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+DGA
+token: Space
+ 
+token: Word
+entscheidet
+token: Space
+ 
+token: Word
+binnen
+token: Space
+ 
+token: Word
+zwei
+token: Space
+ 
+token: Word
+Tagen
+token: Space
+ 
+token: Word
+über
+token: Space
+ 
+token: Word
+das
+token: Space
+ 
+token: Word
+Anliegen.
+token: Space
+ 
+token: Word
+Erhebt
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+Produktionsfirma
+token: Space
+ 
+token: Word
+Einspruch,
+token: Space
+ 
+token: Word
+entscheidet
+token: Space
+ 
+token: Word
+ein
+token: Space
+ 
+token: Word
+Komitee
+token: Space
+ 
+token: Word
+aus
+token: Space
+ 
+token: Word
+Mitgliedern
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+DGA
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Vereinigung
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Film-
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: Word
+Fernsehproduzenten,
+token: Space
+ 
+token: Word
+ob
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Regisseur
+token: Space
+ 
+token: Word
+ein
+token: Space
+ 
+token: Word
+Pseudonym
+token: Space
+ 
+token: Word
+angeben
+token: Space
+ 
+token: Word
+darf.
+token: Space
+ 
+token: Word
+Über
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+Beantragung
+token: Space
+ 
+token: Word
+muss
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Regisseur
+token: Space
+ 
+token: Word
+Stillschweigen
+token: Space
+ 
+token: Word
+halten,
+token: Space
+ 
+token: Word
+ebenso
+token: Space
+ 
+token: Word
+darf
+token: Space
+ 
+token: Word
+er
+token: Space
+ 
+token: Word
+den
+token: Space
+ 
+token: Word
+fertigen
+token: Space
+ 
+token: Word
+Film
+token: Space
+ 
+token: Word
+nicht
+token: Space
+ 
+token: Word
+öffentlich
+token: Space
+ 
+token: Word
+kritisieren,
+token: Space
+ 
+token: Word
+wenn
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+DGA
+token: Space
+ 
+token: Word
+ihm
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+Verwendung
+token: Space
+ 
+token: Word
+eines
+token: Space
+ 
+token: Word
+Pseudonyms
+token: Space
+ 
+token: Word
+zugesteht.
+token: LowerThan
+<
+token: Word
+ref
+token: GreaterThan
+>
+token: Word
+Siehe
+token: Space
+ 
+token: Word
+zu
+token: Space
+ 
+token: Word
+diesen
+token: Space
+ 
+token: Word
+Regelungen
+token: Space
+ 
+token: Word
+[https://www.dga.org/~/media/Files/Contracts/Agreements/2008%20BA/008ba2008article8.pdf
+token: Space
+ 
+token: Word
+Artikel
+token: Space
+ 
+token: Word
+8,
+token: Space
+ 
+token: Word
+Abschnitt
+token: Space
+ 
+token: Word
+8-211
+token: Space
+ 
+token: Word
+des
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Basic
+token: Space
+ 
+token: Word
+Agreement
+token: FormatItalic
+
+token: Word
+]
+token: Space
+ 
+token: Word
+(PDF;
+token: Space
+ 
+token: Word
+125&amp;nbsp;kB)
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+DGA
+token: Space
+ 
+token: Word
+von
+token: Space
+ 
+token: Word
+2008,
+token: Space
+ 
+token: Word
+abgerufen
+token: Space
+ 
+token: Word
+am
+token: Space
+ 
+token: Word
+25.
+token: Space
+ 
+token: Word
+April
+token: Space
+ 
+token: Word
+2012.
+token: LowerThan
+<
+token: Word
+/ref
+token: GreaterThan
+>
+token: Space
+ 
+token: Word
+Ein
+token: Space
+ 
+token: Word
+Antrag
+token: Space
+ 
+token: Word
+des
+token: Space
+ 
+token: Word
+Regisseurs
+token: Space
+ 
+token: Word
+auf
+token: Space
+ 
+token: Word
+Pseudonymisierung
+token: Space
+ 
+token: Word
+kann
+token: Space
+ 
+token: Word
+abgelehnt
+token: Space
+ 
+token: Word
+werden,
+token: Space
+ 
+token: Word
+so
+token: Space
+ 
+token: Word
+durfte
+token: Space
+ 
+token: Link
+[[
+token: Word
+Tony
+token: Space
+ 
+token: Word
+Kaye
+token: Space
+ 
+token: Word
+(Regisseur)
+token: Pipe
+|
+token: Word
+Tony
+token: Space
+ 
+token: Word
+Kaye
+token: Link
+]]
+token: Space
+ 
+token: Word
+den
+token: Space
+ 
+token: Word
+Namen
+token: Space
+ 
+token: Word
+Smithee
+token: Space
+ 
+token: Word
+bei
+token: Space
+ 
+token: Word
+dem
+token: Space
+ 
+token: Word
+Film
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+American
+token: Space
+ 
+token: Word
+History
+token: Space
+ 
+token: Word
+X
+token: Link
+]]
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+nicht
+token: Space
+ 
+token: Word
+einsetzen,
+token: Space
+ 
+token: Word
+obwohl
+token: Space
+ 
+token: Word
+er
+token: Space
+ 
+token: Word
+den
+token: Space
+ 
+token: Word
+Antrag
+token: Space
+ 
+token: Word
+stellte.
+token: Paragraph
+
+
+token: Word
+Auch
+token: Space
+ 
+token: Word
+bei
+token: Space
+ 
+token: Word
+nicht-US-amerikanischen
+token: Space
+ 
+token: Word
+Produktionen
+token: Space
+ 
+token: Word
+wird
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Name
+token: Space
+ 
+token: Word
+verwendet,
+token: Space
+ 
+token: Word
+wie
+token: Space
+ 
+token: Word
+etwa
+token: Space
+ 
+token: Word
+beim
+token: Space
+ 
+token: Link
+[[
+token: Word
+Pilotfilm
+token: Link
+]]
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Fernsehserie
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Schulmädchen
+token: Space
+ 
+token: Word
+(Fernsehserie)
+token: Pipe
+|
+token: Word
+Schulmädchen
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+.
+token: Space
+ 
+token: Word
+2007
+token: Space
+ 
+token: Word
+sendete
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+ARD
+token: Space
+ 
+token: Word
+am
+token: Space
+ 
+token: Word
+8.
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: Word
+9.
+token: Space
+ 
+token: Word
+August
+token: Space
+ 
+token: Word
+den
+token: Space
+ 
+token: Word
+zweiteiligen
+token: Space
+ 
+token: Word
+TV-Film
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Paparazzo
+token: FormatItalic
+
+token: Word
+.
+token: Space
+ 
+token: Word
+Auch
+token: Space
+ 
+token: Word
+in
+token: Space
+ 
+token: Word
+diesem
+token: Space
+ 
+token: Word
+Werk
+token: Space
+ 
+token: Word
+erscheint
+token: Space
+ 
+token: Word
+anstatt
+token: Space
+ 
+token: Word
+des
+token: Space
+ 
+token: Word
+eigentlichen
+token: Space
+ 
+token: Word
+Regisseurs
+token: Space
+ 
+token: Link
+[[
+token: Word
+Stephan
+token: Space
+ 
+token: Word
+Wagner
+token: Space
+ 
+token: Word
+(Regisseur)
+token: Pipe
+|
+token: Word
+Stephan
+token: Space
+ 
+token: Word
+Wagner
+token: Link
+]]
+token: Space
+ 
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee
+token: Space
+ 
+token: Word
+im
+token: Space
+ 
+token: Word
+Abspann.
+token: Paragraph
+
+
+token: Word
+Regisseure,
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+das
+token: Space
+ 
+token: Word
+Pseudonym
+token: Space
+ 
+token: Word
+benutzt
+token: Space
+ 
+token: Word
+haben:
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Link
+[[
+token: Word
+Don
+token: Space
+ 
+token: Word
+Siegel
+token: Link
+]]
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: Link
+[[
+token: Word
+Robert
+token: Space
+ 
+token: Word
+Totten
+token: Link
+]]
+token: Space
+ 
+token: Word
+(für
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Frank
+token: Space
+ 
+token: Word
+Patch
+token: Space
+ 
+token: Word
+–
+token: Space
+ 
+token: Word
+Deine
+token: Space
+ 
+token: Word
+Stunden
+token: Space
+ 
+token: Word
+sind
+token: Space
+ 
+token: Word
+gezählt
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+)
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Link
+[[
+token: Word
+David
+token: Space
+ 
+token: Word
+Lynch
+token: Link
+]]
+token: Space
+ 
+token: Word
+(für
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+dreistündige
+token: Space
+ 
+token: Word
+Fernsehfassung
+token: Space
+ 
+token: Word
+von
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Der
+token: Space
+ 
+token: Word
+Wüstenplanet
+token: Space
+ 
+token: Word
+(Film)
+token: Pipe
+|
+token: Word
+Der
+token: Space
+ 
+token: Word
+Wüstenplanet
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+)
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Link
+[[
+token: Word
+Chris
+token: Space
+ 
+token: Word
+Christensen
+token: Space
+ 
+token: Word
+(Regisseur)
+token: Pipe
+|
+token: Word
+Chris
+token: Space
+ 
+token: Word
+Christensen
+token: Link
+]]
+token: Space
+ 
+token: Word
+(
+token: FormatItalic
+
+token: Word
+The
+token: Space
+ 
+token: Word
+Omega
+token: Space
+ 
+token: Word
+Imperative
+token: FormatItalic
+
+token: Word
+)
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Link
+[[
+token: Word
+Gianni
+token: Space
+ 
+token: Word
+Bozzacchi
+token: Link
+]]
+token: Space
+ 
+token: Word
+(für
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+I
+token: Space
+ 
+token: Word
+Love
+token: Space
+ 
+token: Word
+N.Y.
+token: FormatItalic
+
+token: Word
+)
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Link
+[[
+token: Word
+Stuart
+token: Space
+ 
+token: Word
+Rosenberg
+token: Link
+]]
+token: Space
+ 
+token: Word
+(für
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Let’s
+token: Space
+ 
+token: Word
+Get
+token: Space
+ 
+token: Word
+Harry
+token: FormatItalic
+
+token: Word
+)
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Link
+[[
+token: Word
+Richard
+token: Space
+ 
+token: Word
+C.
+token: Space
+ 
+token: Word
+Sarafian
+token: Link
+]]
+token: Space
+ 
+token: Word
+(für
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Starfire
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+)
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Link
+[[
+token: Word
+Dennis
+token: Space
+ 
+token: Word
+Hopper
+token: Link
+]]
+token: Space
+ 
+token: Word
+(für
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Catchfire
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+)
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Link
+[[
+token: Word
+Arthur
+token: Space
+ 
+token: Word
+Hiller
+token: Space
+ 
+token: Word
+(Regisseur)
+token: Pipe
+|
+token: Word
+Arthur
+token: Space
+ 
+token: Word
+Hiller
+token: Link
+]]
+token: Space
+ 
+token: Word
+(für
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Fahr
+token: Space
+ 
+token: Word
+zur
+token: Space
+ 
+token: Word
+Hölle
+token: Space
+ 
+token: Word
+Hollywood
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+)
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Link
+[[
+token: Word
+Rick
+token: Space
+ 
+token: Word
+Rosenthal
+token: Link
+]]
+token: Space
+ 
+token: Word
+(
+token: FormatItalic
+
+token: Word
+Die
+token: Space
+ 
+token: Word
+Vögel
+token: Space
+ 
+token: Word
+II
+token: Space
+ 
+token: Word
+–
+token: Space
+ 
+token: Word
+Die
+token: Space
+ 
+token: Word
+Rückkehr
+token: FormatItalic
+
+token: Word
+)
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Link
+[[
+token: Word
+Kevin
+token: Space
+ 
+token: Word
+Yagher
+token: Link
+]]
+token: Space
+ 
+token: Word
+(
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Hellraiser
+token: Space
+ 
+token: Word
+IV
+token: Space
+ 
+token: Word
+–
+token: Space
+ 
+token: Word
+Bloodline
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+)
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Link
+[[
+token: Word
+William
+token: Space
+ 
+token: Word
+Lustig
+token: Link
+]]
+token: Space
+ 
+token: Word
+(
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Maniac
+token: Space
+ 
+token: Word
+Cop
+token: Space
+ 
+token: Word
+3
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+)
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Word
+Jerrold
+token: Space
+ 
+token: Word
+Freedman
+token: Space
+ 
+token: Word
+(für
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+Die
+token: Space
+ 
+token: Word
+O.J.
+token: Space
+ 
+token: Word
+Simpson
+token: Space
+ 
+token: Word
+Story
+token: Space
+ 
+token: Word
+–
+token: Space
+ 
+token: Word
+Der
+token: Space
+ 
+token: Word
+Mordfall
+token: Space
+ 
+token: Word
+des
+token: Space
+ 
+token: Word
+Jahrhunderts
+token: Link
+]]
+token: FormatItalic
+
+token: Word
+)
+token: Paragraph
+
+
+token: Word
+Der
+token: Space
+ 
+token: Word
+Pilotfilm
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+Serie
+token: Space
+ 
+token: FormatItalic
+
+token: Link
+[[
+token: Word
+MacGyver
+token: Link
+]]
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+fünfte
+token: Space
+ 
+token: Word
+Folge
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+ersten
+token: Space
+ 
+token: Word
+Staffel
+token: Space
+ 
+token: Word
+führen
+token: Space
+ 
+token: Word
+einen
+token: Space
+ 
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee
+token: Space
+ 
+token: Word
+als
+token: Space
+ 
+token: Word
+Regisseur.
+token: Space
+ 
+token: Word
+Auf
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+TV-Serien-Seite
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+TV
+token: Space
+ 
+token: Word
+Rage
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+wird
+token: Space
+ 
+token: Word
+Jerrold
+token: Space
+ 
+token: Word
+Freedman
+token: Space
+ 
+token: Word
+als
+token: Space
+ 
+token: Word
+Regisseur
+token: Space
+ 
+token: Word
+des
+token: Space
+ 
+token: Word
+Pilotfilms
+token: Space
+ 
+token: Word
+angegeben.
+token: Space
+ 
+token: Word
+Der
+token: Space
+ 
+token: Word
+Regisseur
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+fünften
+token: Space
+ 
+token: Word
+Folge
+token: Space
+ 
+token: Word
+ist
+token: Space
+ 
+token: Word
+unbekannt.
+token: Paragraph
+
+
+token: Word
+Zu
+token: Space
+ 
+token: Word
+den
+token: Space
+ 
+token: Word
+Drehbuchautoren,
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+das
+token: Space
+ 
+token: Word
+Pseudonym
+token: Space
+ 
+token: Word
+benutzt
+token: Space
+ 
+token: Word
+haben,
+token: Space
+ 
+token: Word
+gehören
+token: Space
+ 
+token: Link
+[[
+token: Word
+Sam
+token: Space
+ 
+token: Word
+Raimi
+token: Link
+]]
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: Link
+[[
+token: Word
+Ivan
+token: Space
+ 
+token: Word
+Raimi
+token: Link
+]]
+token: Word
+,
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Word
+das
+token: Space
+ 
+token: Word
+Drehbuch
+token: Space
+ 
+token: Word
+zu
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Die
+token: Space
+ 
+token: Word
+total
+token: Space
+ 
+token: Word
+beknackte
+token: Space
+ 
+token: Word
+Nuß
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+als
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee,
+token: Space
+ 
+token: Word
+Jr.
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+und
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee,
+token: Space
+ 
+token: Word
+Sr.
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+schrieben.
+token: Paragraph
+
+
+token: Word
+Auch
+token: Space
+ 
+token: Word
+in
+token: Space
+ 
+token: Word
+Computerspielen
+token: Space
+ 
+token: Word
+wird
+token: Space
+ 
+token: Word
+dieses
+token: Space
+ 
+token: Word
+Pseudonym
+token: Space
+ 
+token: Word
+angegeben:
+token: Space
+ 
+token: Word
+Im
+token: Space
+ 
+token: Word
+Abspann
+token: Space
+ 
+token: Word
+des
+token: Space
+ 
+token: Word
+Ego-Shooters
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Marine
+token: Space
+ 
+token: Word
+Sharpshooter
+token: Space
+ 
+token: Word
+IV
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+aus
+token: Space
+ 
+token: Word
+dem
+token: Space
+ 
+token: Word
+Jahr
+token: Space
+ 
+token: Word
+2008
+token: Space
+ 
+token: Word
+wird
+token: Space
+ 
+token: Word
+als
+token: Space
+ 
+token: Word
+Art
+token: Space
+ 
+token: Word
+Director
+token: Space
+ 
+token: Word
+des
+token: Space
+ 
+token: Word
+Spiels
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+genannt.
+token: LowerThan
+<
+token: Word
+ref
+token: GreaterThan
+>
+token: Word
+[https://www.spiegel.de/geschichte/regie-phantom-a-946618.html
+token: Space
+ 
+token: Word
+spiegel.de]
+token: LowerThan
+<
+token: Word
+/ref
+token: GreaterThan
+>
+token: Paragraph
+
+
+token: Word
+2014
+token: Space
+ 
+token: Word
+produzierte
+token: Space
+ 
+token: Word
+die
+token: Space
+ 
+token: Link
+[[
+token: Word
+New
+token: Space
+ 
+token: Word
+York
+token: Space
+ 
+token: Word
+City
+token: Pipe
+|
+token: Word
+New
+token: Space
+ 
+token: Word
+Yorker
+token: Link
+]]
+token: Space
+ 
+token: Word
+Performance-Kompanie
+token: Space
+ 
+token: Link
+[[
+token: Word
+Big
+token: Space
+ 
+token: Word
+Dance
+token: Space
+ 
+token: Word
+Theater
+token: Link
+]]
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee
+token: Space
+ 
+token: Word
+Directed
+token: Space
+ 
+token: Word
+this
+token: Space
+ 
+token: Word
+Play
+token: FormatItalic
+
+token: Word
+,
+token: Space
+ 
+token: Word
+das
+token: Space
+ 
+token: Word
+im
+token: Space
+ 
+token: Word
+August
+token: Space
+ 
+token: Word
+des
+token: Space
+ 
+token: Word
+Jahres
+token: Space
+ 
+token: Word
+auch
+token: Space
+ 
+token: Word
+in
+token: Space
+ 
+token: Word
+Berlin
+token: Space
+ 
+token: Word
+bei
+token: Space
+ 
+token: Link
+[[
+token: Word
+Tanz
+token: Space
+ 
+token: Word
+im
+token: Space
+ 
+token: Word
+August
+token: Link
+]]
+token: Space
+ 
+token: Word
+aufgeführt
+token: Space
+ 
+token: Word
+wurde.
+token: LowerThan
+<
+token: Word
+ref
+token: GreaterThan
+>
+token: FormatItalic
+
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee
+token: Space
+ 
+token: Word
+ist
+token: Space
+ 
+token: Word
+schuld!
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+in
+token: Space
+ 
+token: Link
+[[
+token: Word
+Frankfurter
+token: Space
+ 
+token: Word
+Allgemeine
+token: Space
+ 
+token: Word
+Sonntagszeitung
+token: Link
+]]
+token: Space
+ 
+token: Word
+vom
+token: Space
+ 
+token: Word
+17.
+token: Space
+ 
+token: Word
+August
+token: Space
+ 
+token: Word
+2014,
+token: Space
+ 
+token: Word
+S.
+token: Space
+ 
+token: Word
+36.
+token: LowerThan
+<
+token: Word
+/ref
+token: GreaterThan
+>
+token: Paragraph
+
+
+token: Header
+==
+token: Space
+ 
+token: Word
+Literatur
+token: Space
+ 
+token: Header
+==
+token: Word
+
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Word
+Jeremy
+token: Space
+ 
+token: Word
+Braddock,
+token: Space
+ 
+token: Word
+Stephen
+token: Space
+ 
+token: Word
+Hock
+token: Space
+ 
+token: Word
+(Hrsg.):
+token: Space
+ 
+token: FormatItalic
+
+token: Word
+Directed
+token: Space
+ 
+token: Word
+by
+token: Space
+ 
+token: Word
+Allen
+token: Space
+ 
+token: Word
+Smithee.
+token: FormatItalic
+
+token: Space
+ 
+token: Word
+Foreword
+token: Space
+ 
+token: Word
+by
+token: Space
+ 
+token: Word
+Andrew
+token: Space
+ 
+token: Word
+Sarris.
+token: Space
+ 
+token: Word
+University
+token: Space
+ 
+token: Word
+of
+token: Space
+ 
+token: Word
+Minnesota
+token: Space
+ 
+token: Word
+Press,
+token: Space
+ 
+token: Word
+Minneapolis,
+token: Space
+ 
+token: Word
+London
+token: Space
+ 
+token: Word
+2001,
+token: Space
+ 
+token: Word
+ISBN
+token: Space
+ 
+token: Word
+0-8166-3534-X.
+token: Paragraph
+
+
+token: Header
+==
+token: Space
+ 
+token: Word
+Weblinks
+token: Space
+ 
+token: Header
+==
+token: Word
+
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Template
+{{
+token: Word
+IMDb
+token: Pipe
+|
+token: Word
+nm0000647
+token: Template
+}}
+token: Word
+
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Word
+[https://www.spiegel.de/geschichte/regie-phantom-a-946618.html
+token: Space
+ 
+token: Word
+Der
+token: Space
+ 
+token: Word
+Mann,
+token: Space
+ 
+token: Word
+der
+token: Space
+ 
+token: Word
+niemals
+token: Space
+ 
+token: Word
+lebte,
+token: Space
+ 
+token: Word
+Spiegel
+token: Space
+ 
+token: Word
+Online
+token: Space
+ 
+token: Word
+einestages]
+token: Space
+ 
+token: Word
+vom
+token: Space
+ 
+token: Word
+23.
+token: Space
+ 
+token: Word
+August
+token: Space
+ 
+token: Word
+2010,
+token: Space
+ 
+token: Word
+abgerufen
+token: Space
+ 
+token: Word
+am
+token: Space
+ 
+token: Word
+5.
+token: Space
+ 
+token: Word
+April
+token: Space
+ 
+token: Word
+2024
+
+token: UnorderedListStart
+*
+token: Space
+ 
+token: Word
+[https://dradiowissen.de/beitrag/alan-smithee-die-film-legende-lebt
+token: Space
+ 
+token: Word
+Alan
+token: Space
+ 
+token: Word
+Smithee
+token: Space
+ 
+token: Word
+lebt!,
+token: Space
+ 
+token: Word
+DRadio
+token: Space
+ 
+token: Word
+Wissen]
+token: Space
+ 
+token: Word
+vom
+token: Space
+ 
+token: Word
+15.
+token: Space
+ 
+token: Word
+März
+token: Space
+ 
+token: Word
+2015,
+token: Space
+ 
+token: Word
+abgerufen
+token: Space
+ 
+token: Word
+am
+token: Space
+ 
+token: Word
+5.
+token: Space
+ 
+token: Word
+April
+token: Space
+ 
+token: Word
+2024
+token: Paragraph
+
+
+token: Header
+==
+token: Space
+ 
+token: Word
+Einzelnachweise
+token: Space
+ 
+token: Header
+==
+token: Word
+
+
+token: LowerThan
+<
+token: Word
+references
+token: Space
+ 
+token: Word
+/
+token: GreaterThan
+>
+token: Paragraph
+
+
+token: Template
+{{
+token: Word
+Normdaten
+token: Pipe
+|
+token: Word
+TYP
+token: Header
+=
+token: Word
+p
+token: Pipe
+|
+token: Word
+GND
+token: Header
+=
+token: Word
+123396956
+token: Pipe
+|
+token: Word
+LCCN
+token: Header
+=
+token: Word
+n96005794
+token: Pipe
+|
+token: Word
+VIAF
+token: Header
+=
+token: Word
+86737339
+token: Template
+}}
+token: Paragraph
+
+
+token: Link
+[[
+token: Word
+Kategorie:Alan
+token: Space
+ 
+token: Word
+Smithee
+token: Pipe
+|
+token: Space
+ 
+token: Link
+]]
+token: Word
+
+
+token: Link
+[[
+token: Word
+Kategorie:Fiktive
+token: Space
+ 
+token: Word
+Person
+token: Pipe
+|
+token: Word
+Smithee,
+token: Space
+ 
+token: Word
+Alan
+token: Link
+]]
+token: Word
+
+
+token: Link
+[[
+token: Word
+Kategorie:Sammelpseudonym
+token: Pipe
+|
+token: Word
+Smithee,
+token: Space
+ 
+token: Word
+Alan
+token: Link
+]]
