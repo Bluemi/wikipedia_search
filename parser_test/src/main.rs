@@ -1,10 +1,9 @@
 use bzip2::read::MultiBzDecoder;
 use std::fs::File;
-use std::io::{BufReader, Read};
+use std::io::BufReader;
 use quick_xml::Reader;
 use quick_xml::events::Event;
-use mediawiki_parser;
-use mediawiki_parser::{Element, ListItemKind, MWError, MarkupType};
+use mediawiki_parser::{parse, Element};
 
 const MINIMUM_WORDS_PER_TABLE_CELL: usize = 3;
 
@@ -257,7 +256,7 @@ fn process_text(title: &str, data: &[u8]) {
     println!("#########################");
     println!("title: {}", title);
     let mut result = Vec::new();
-    match mediawiki_parser::parse(&text) {
+    match parse(&text) {
         Ok(elem) => {
             print_element(&elem, &mut result);
         }
