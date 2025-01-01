@@ -5,6 +5,6 @@ edition = "2024"
 
 [dependencies]
 bzip2 = "0.4"
-parse_wiki_text = "0.1.5"
+mediawiki_parser = "0.4.2"
 quick-xml = "0.27"
 
