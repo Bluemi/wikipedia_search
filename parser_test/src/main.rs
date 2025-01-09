@@ -5,7 +5,11 @@ use std::fs::File;
 use std::io::BufReader;
 use quick_xml::Reader;
 use quick_xml::events::Event;
-use crate::wiki_parser::process_article;
+use crate::wiki_parser::{process_article, test_parser};
+
+fn main2() {
+    test_parser();
+}
 
 fn main() -> std::io::Result<()> {
     // Path to the compressed Wikipedia dump file

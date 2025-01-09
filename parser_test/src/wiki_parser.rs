@@ -1,397 +1,298 @@
 use std::fmt::{Display, Formatter};
-use std::io::Write;
-use unicode_segmentation::UnicodeSegmentation;
+use nom::{branch::alt, IResult};
+use nom::bytes::complete::{take, tag, take_until, take_till1, take_while};
+use nom::character::complete::{line_ending, multispace0};
+use nom::combinator::map;
+use nom::multi::{count, many0, many1, many1_count, many_m_n};
+use nom::sequence::{delimited, pair, preceded, tuple};
 
+// TODO: replace &nbsp; with space
 #[derive(Debug)]
-enum Token {
-    Word(String),  // Some word
+enum Token<'a> {
+    Text(&'a str),  // Some word
     Paragraph,     // double newline
-    Space,         // " " or "&nbsp;"
-    LowerThan,     // "&lt;"
-    GreaterThan,   // > or "&gt;"
-    FormatBold,    // "'''"
-    FormatItalic,  // "''"
-    Header(usize), // =, ==, ..., ======
+    Newline, // single newline
+    HtmlTag {
+        tag: &'a str,
+        content: &'a str,
+    },     // "&lt;NAME&gt;"
+    BoldText(&'a str),    // "'''"
+    ItalicText(&'a str),  // "''"
+    Header { // =, ==, ..., ======
+        text: &'a str,
+        level: u8
+    },
     // [[ or ]]
-    Link { is_start: bool },
+    Link(&'a str),
     // {{ or }}
-    Template { is_start: bool },
+    Template(&'a str),
     // *
-    UnorderedListStart(u8),
+    UnorderedListEntry {
+        text: &'a str,
+        level: u8,
+    },
     // #
-    OrderedListStart(u8),
-    // ; or :
-    DefinitionListStart { header: bool },
+    OrderedListEntry {
+        text: &'a str,
+        level: u8,
+    },
     // "&lt;!--" or "--&gt;"
-    Comment { is_start: bool },
-    Pipe, // |
+    Comment,
+    Redirect,
 }
 
-impl Token {
+impl Token<'_> {
     fn get_name(&self) -> &'static str {
         match self {
-            Token::Word(_) => "Word",
+            Token::Text(_) => "Word",
             Token::Paragraph => "Paragraph",
-            Token::Space => "Space",
-            Token::LowerThan => "LowerThan",
-            Token::GreaterThan => "GreaterThan",
-            Token::FormatBold => "FormatBold",
-            Token::FormatItalic => "FormatItalic",
-            Token::Header(_) => "Header",
+            Token::Newline => "Newline",
+            Token::HtmlTag { .. } => "HtmlTag",
+            Token::BoldText(_) => "BoldText",
+            Token::ItalicText(_) => "ItalicText",
+            Token::Header { .. } => "Header",
             Token::Link { .. } => "Link",
             Token::Template { .. } => "Template",
-            Token::UnorderedListStart(_) => "UnorderedListStart",
-            Token::OrderedListStart(_) => "OrderedListStart",
-            Token::DefinitionListStart { .. } => "DefinitionListStart",
+            Token::UnorderedListEntry { .. } => "UnorderedListEntry",
+            Token::OrderedListEntry { .. } => "OrderedListEntry",
             Token::Comment { .. } => "Comment",
-            Token::Pipe => "Pipe",
+            Token::Redirect => "Redirect",
         }
     }
 }
 
-impl Display for Token {
+impl Display for Token<'_> {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Token::Word(w) => {
+            Token::Text(w) => {
                 write!(f, "{}", w)
             }
             Token::Paragraph => {
                 write!(f, "\n")
             }
-            Token::Space => {
-                write!(f, " ")
+            Token::Newline => {
+                write!(f, "\n")
             }
-            Token::LowerThan => {
-                write!(f, "<")
+            Token::Header { text, level } => {
+                write!(f, "{}{}{}", "=".repeat(*level as usize), text, "=".repeat(*level as usize))
             }
-            Token::GreaterThan => {
-                write!(f, ">")
+            Token::UnorderedListEntry { level, text } => {
+                write!(
+                    f, "{} {}",
+                    "*".repeat(*level as usize),
+                    text
+                )
             }
-            Token::Header(level) => {
-                write!(f, "{}", "=".repeat(*level))
+            Token::OrderedListEntry { level, text } => {
+                write!(
+                    f, "{} {}",
+                    "1.".repeat(*level as usize),
+                    text,
+                )
             }
-            Token::Link { is_start } => {
-                if *is_start {
-                    write!(f, "[[")
-                } else {
-                    write!(f, "]]")
-                }
+            Token::Comment { .. } => {
+                write!(f, "")
+            },
+            Token::HtmlTag { tag, content } => {
+                write!(f, "<{}>{}</{}>", tag, content, tag)
             }
-            Token::Template { is_start } => {
-                if *is_start {
-                    write!(f, "{{{{")
-                } else {
-                    write!(f, "}}}}")
-                }
+            Token::BoldText(text) => {
+                write!(f, "**{}**", text)
             }
-            Token::UnorderedListStart(level) => {
-                write!(f, "{}", "*".repeat(*level as usize))
+            Token::ItalicText(text) => {
+                write!(f, "*{}*", text)
             }
-            Token::OrderedListStart(level) => {
-                write!(f, "{}", "*".repeat(*level as usize))
+            Token::Link(text) => {
+                write!(f, "[[{}]]", text)
             }
-            Token::DefinitionListStart { header } => {
-                if *header {
-                    write!(f, ";")
-                } else {
-                    write!(f, ":")
-                }
+            Token::Template(text) => {
+                write!(f, "{{{{{}}}}}", text)
             }
-            Token::Pipe => {
-                write!(f, "|")
+            Token::Redirect => {
+                write!(f, "#REDIRECT")
             }
-            Token::Comment { .. } => Ok(()),
-            Token::FormatBold => Ok(()),
-            Token::FormatItalic => Ok(()),
         }
     }
 }
 
-fn matches_string(chars: &[&str], index: usize, target: &str) -> bool {
-    for (i, c) in UnicodeSegmentation::graphemes(target, true).enumerate() {
-        if index + i >= chars.len() || chars[index + i] != c {
-            return false;
-        }
+fn parse_bold(input: &str) -> IResult<&str, Token> {
+    map(
+        delimited(tag("'''"), take_until("'''"), tag("'''")),
+        Token::BoldText,
+    )(input)
+}
+
+fn parse_italic(input: &str) -> IResult<&str, Token> {
+    map(
+        delimited(tag("''"), take_until("''"), tag("''")),
+        Token::ItalicText,
+    )(input)
+}
+
+fn parse_template(input: &str) -> IResult<&str, Token> {
+    map(
+        delimited(tag("{{"), take_until("}}"), tag("}}")),
+        Token::Template,
+    )(input)
+}
+
+fn parse_link(input: &str) -> IResult<&str, Token> {
+    map(
+        delimited(tag("[["), take_until("]]"), tag("]]")),
+        Token::Link,
+    )(input)
+}
+
+fn parse_single_link(input: &str) -> IResult<&str, Token> {
+    let (input, _) = tag("[")(input)?;
+    let (input, content) = take_until("]")(input)?;
+    let (input, _) = tag("]")(input)?;
+    Ok((input, Token::Link(content)))
+}
+
+fn parse_html(input: &str) -> IResult<&str, Token> {
+    let (input, (tag_name, content)) = tuple((
+        // Match the opening tag (e.g., <ref>)
+        delimited(tag("&lt;"), take_until("&gt;"), tag("&gt;")),
+        // Match the content inside the tags
+        take_until("&lt;/"),
+    ))(input)?;
+
+    // Ensure the closing tag matches the opening tag (e.g., </ref>)
+    let (input, _) = preceded(tag("&lt;/"), tag(tag_name))(input)?;
+    let (input, _) = tag("&gt;")(input)?;
+
+    Ok((input, Token::HtmlTag { tag: tag_name, content }))
+}
+
+fn parse_unordered_list(input: &str) -> IResult<&str, Token> {
+    let (input, _) = many1(line_ending)(input)?;
+    let (input, level) = many1_count(tag("*"))(input)?;
+    let (input, text) = take_until("\n")(input)?;
+    Ok((input, Token::UnorderedListEntry { level: level as u8, text: text.trim() }))
+}
+
+fn parse_ordered_list(input: &str) -> IResult<&str, Token> {
+    let (input, _) = many1(line_ending)(input)?;
+    let (input, level) = many1_count(tag("#"))(input)?;
+    let (input, text) = take_until("\n")(input)?;
+    Ok((input, Token::OrderedListEntry { level: level as u8, text: text.trim() }))
+}
+
+fn parse_redirect(input: &str) -> IResult<&str, Token> {
+    let (input, _) = many0(line_ending)(input)?;
+    let (input, _) = multispace0(input)?;
+    let (input, _) = tag("#REDIRECT")(input)?;
+    Ok((input, Token::Redirect))
+}
+
+fn parse_colon_start(input: &str) -> IResult<&str, Token> {
+    let (input, _) = pair(many1(line_ending), many1(tag(":")))(input)?;
+    Ok((input, Token::Newline)) // ignore colon start
+}
+
+fn parse_semicolon_start(input: &str) -> IResult<&str, Token> {
+    let (input, _) = pair(many1(line_ending), many1(tag(";")))(input)?;
+    Ok((input, Token::Newline)) // ignore colon start
+}
+
+fn parse_header(input: &str) -> IResult<&str, Token> {
+    let (input, _) = many1(line_ending)(input)?;
+    let (_, level) = many1_count(tag("="))(input)?;
+
+    if level == 0 {
+        return Err(nom::Err::Error(nom::error::make_error(input, nom::error::ErrorKind::Fail)));
     }
-    true
+
+    // Match the header text between the `=` symbols
+    let (input, text) = delimited(
+        count(tag("="), level),   // Match the left `=` symbols
+        take_while(|c| c != '='), // Match text in between
+        count(tag("="), level),   // Match the right `=` symbols
+    )(input)?;
+
+    Ok((input, Token::Header { level: level as u8, text: text.trim() }))
+}
+fn parse_hline(input: &str) -> IResult<&str, Token> {
+    let (input, _) = delimited(many1(line_ending), many_m_n(4, 1000, tag("-")), line_ending)(input)?;
+    Ok((input, Token::Paragraph))
 }
 
-fn is_start_of_newline(graphemes: &[&str], index: usize) -> bool {
-    if index == 0 {
-        return true;
-    }
-    graphemes[index - 1] == "\n"
+fn parse_paragraph(input: &str) -> IResult<&str, Token> {
+    let (input, _) = alt((
+        many_m_n(2, 1000, line_ending),
+    ))(input)?;
+    Ok((input, Token::Paragraph))
 }
 
-fn num_matching_chars(graphemes: &[&str], index: usize, target: &str) -> usize {
-    let mut offset = 0;
-    while graphemes[index + offset] == target {
-        offset += 1;
-    }
-    offset
+fn parse_newline(input: &str) -> IResult<&str, Token> {
+    let (input, _) = line_ending(input)?;
+    Ok((input, Token::Newline))
 }
 
-fn match_space(graphemes: &[&str], index: usize) -> usize {
-    if graphemes[index] == " " { 1 } else { 0 }
-}
-
-fn match_paragraph(graphemes: &[&str], index: usize) -> usize {
-    if matches_string(graphemes, index, "\n\n") {
-        2
-    } else {
-        0
-    }
-}
-
-fn match_lower_than(graphemes: &[&str], index: usize) -> usize {
-    if matches_string(graphemes, index, "&lt;") {
-        4
-    } else {
-        0
-    }
-}
-
-fn match_greater_than(graphemes: &[&str], index: usize) -> usize {
-    if matches_string(graphemes, index, "&gt;") {
-        4
-    } else {
-        0
-    }
-}
-
-fn match_format_bold(graphemes: &[&str], index: usize) -> usize {
-    if matches_string(graphemes, index, "'''") {
-        3
-    } else {
-        0
-    }
-}
-
-fn match_format_italic(graphemes: &[&str], index: usize) -> usize {
-    if matches_string(graphemes, index, "''") {
-        2
-    } else {
-        0
-    }
-}
-
-fn match_header(graphemes: &[&str], index: usize) -> usize {
-    num_matching_chars(graphemes, index, "=")
-}
-
-fn match_link_start(graphemes: &[&str], index: usize) -> usize {
-    if matches_string(graphemes, index, "[[") {
-        2
-    } else {
-        0
-    }
-}
-
-fn match_link_end(graphemes: &[&str], index: usize) -> usize {
-    if matches_string(graphemes, index, "]]") {
-        2
-    } else {
-        0
-    }
-}
-
-fn match_template_start(graphemes: &[&str], index: usize) -> usize {
-    if matches_string(graphemes, index, "{{") {
-        2
-    } else {
-        0
-    }
-}
-
-fn match_template_end(graphemes: &[&str], index: usize) -> usize {
-    if matches_string(graphemes, index, "}}") {
-        2
-    } else {
-        0
-    }
-}
-
-fn match_unordered_list_start(graphemes: &[&str], index: usize) -> usize {
-    if is_start_of_newline(graphemes, index) {
-        num_matching_chars(graphemes, index, "*")
-    } else {
-        0
-    }
-}
-
-fn match_ordered_list_start(graphemes: &[&str], index: usize) -> usize {
-    if is_start_of_newline(graphemes, index) {
-        num_matching_chars(graphemes, index, "#")
-    } else {
-        0
-    }
-}
-
-fn match_definition_list_start_header(graphemes: &[&str], index: usize) -> usize {
-    if is_start_of_newline(graphemes, index) {
-        (graphemes[index] == ";") as usize
-    } else {
-        0
+fn special_sign(input: char) -> bool {
+    match input {
+        '{' => true,
+        '[' => true,
+        '\'' => true,
+        '\n' => true,
+        '&' => true,
+        _ => false,
     }
 }
 
-fn match_definition_list_start_noheader(graphemes: &[&str], index: usize) -> usize {
-    if is_start_of_newline(graphemes, index) {
-        (graphemes[index] == ":") as usize
-    } else {
-        0
-    }
+fn parse_comment(input: &str) -> IResult<&str, Token> {
+    let (input, _) = delimited(tag("&lt;!--"), take_until("-->"), tag("-->"))(input)?;
+    Ok((input, Token::Comment))
 }
 
-fn match_comment_start(graphemes: &[&str], index: usize) -> usize {
-    if matches_string(graphemes, index, "&lt;!--") {
-        7
-    } else {
-        0
-    }
-}
-
-fn match_comment_end(graphemes: &[&str], index: usize) -> usize {
-    if matches_string(graphemes, index, "--&gt;") {
-        6
-    } else {
-        0
-    }
-}
-
-fn match_pipe(graphemes: &[&str], index: usize) -> usize {
-    (graphemes[index] == "|") as usize
-}
-
-fn special_sign(grapheme: &str, start_of_line: bool) -> bool {
-    if start_of_line {
-        matches!(
-            grapheme,
-            " " | "&" | "{" | "}" | "[" | "]" | "'" | "=" | "*" | "#" | ":" | ";" | "-"
+fn parse_normal_text(input: &str) -> IResult<&str, Token> {
+    alt((
+        map(
+            take_till1(special_sign),
+            Token::Text
+        ),
+        map(
+            take(1u8),
+            Token::Text
         )
-    } else {
-        matches!(
-            grapheme,
-            " " | "&" | "{" | "}" | "[" | "]" | "'" | "=" | "*" | "#" | ":" | ";" | "-"
-        )
-    }
+    ))(input)
 }
 
-fn match_text(graphemes: &[&str], index: usize) -> (String, usize) {
-    let mut result = Vec::new();
-    let mut i = index;
-    while i < graphemes.len() {
-        if parse_next_token_except_word(graphemes, i).is_some() {
-            break;
-        } else {
-            result.push(graphemes[i]);
-        }
-        i += 1;
-    }
-    (result.join(""), i - index)
-}
-
-fn parse_next_token_except_word(graphemes: &[&str], index: usize) -> Option<(Token, usize)> {
-    let size = match_comment_start(graphemes, index);
-    if size != 0 {
-        return Some((Token::Comment { is_start: true }, size));
-    }
-    let size = match_comment_end(graphemes, index);
-    if size != 0 {
-        return Some((Token::Comment { is_start: false }, size));
-    }
-    let size = match_space(graphemes, index);
-    if size != 0 {
-        return Some((Token::Space, size));
-    }
-    let size = match_paragraph(graphemes, index);
-    if size != 0 {
-        return Some((Token::Paragraph, size));
-    }
-    let size = match_lower_than(graphemes, index);
-    if size != 0 {
-        return Some((Token::LowerThan, size));
-    }
-    let size = match_greater_than(graphemes, index);
-    if size != 0 {
-        return Some((Token::GreaterThan, size));
-    }
-    let size = match_format_bold(graphemes, index);
-    if size != 0 {
-        return Some((Token::FormatBold, size));
-    }
-    let size = match_format_italic(graphemes, index);
-    if size != 0 {
-        return Some((Token::FormatItalic, size));
-    }
-    let size = match_header(graphemes, index);
-    if size != 0 {
-        return Some((Token::Header(size), size));
-    }
-    let size = match_link_start(graphemes, index);
-    if size != 0 {
-        return Some((Token::Link { is_start: true }, size));
-    }
-    let size = match_link_end(graphemes, index);
-    if size != 0 {
-        return Some((Token::Link { is_start: false }, size));
-    }
-    let size = match_template_start(graphemes, index);
-    if size != 0 {
-        return Some((Token::Template { is_start: true }, size));
-    }
-    let size = match_template_end(graphemes, index);
-    if size != 0 {
-        return Some((Token::Template { is_start: false }, size));
-    }
-    let size = match_unordered_list_start(graphemes, index);
-    if size != 0 {
-        return Some((Token::UnorderedListStart(size as u8), size));
-    }
-    let size = match_ordered_list_start(graphemes, index);
-    if size != 0 {
-        return Some((Token::OrderedListStart(size as u8), size));
-    }
-    let size = match_definition_list_start_header(graphemes, index);
-    if size != 0 {
-        return Some((Token::DefinitionListStart { header: true }, size));
-    }
-    let size = match_definition_list_start_noheader(graphemes, index);
-    if size != 0 {
-        return Some((Token::DefinitionListStart { header: false }, size));
-    }
-    let size = match_pipe(graphemes, index);
-    if size != 0 {
-        return Some((Token::Pipe, size));
-    }
-    None
-}
-
-fn parse_next_token(graphemes: &[&str], index: usize) -> Option<(Token, usize)> {
-    if let Some((token, offset)) = parse_next_token_except_word(graphemes, index) {
-        Some((token, offset))
-    } else {
-        // if nothing else matches, this is normal text
-        let (word, size) = match_text(graphemes, index);
-        if size != 0 {
-            Some((Token::Word(word), size))
-        } else {
-            None
-        }
-    }
+fn parse_next_token(input: &str) -> IResult<&str, Token> {
+    alt((
+        parse_redirect,
+        parse_bold,
+        parse_italic,
+        parse_template,
+        parse_link,
+        parse_single_link,
+        parse_header,
+        parse_hline,
+        parse_unordered_list,
+        parse_ordered_list,
+        parse_colon_start,
+        parse_semicolon_start,
+        parse_html,
+        parse_paragraph,
+        parse_newline,
+        parse_comment,
+        parse_normal_text,
+    ))(input)
 }
 
 fn tokenize(text: &str) -> Result<Vec<Token>, String> {
-    let graphemes = UnicodeSegmentation::graphemes(text, true).collect::<Vec<&str>>();
-    let mut index = 0;
-    let mut tokens = Vec::new();
-    while index < graphemes.len() {
-        if let Some((token, offset)) = parse_next_token(&graphemes, index) {
-            index += offset;
-            println!("token: {}", token.get_name());
-            println!("{}", token);
-            tokens.push(token);
-            std::io::stdout().flush().unwrap();
+    let mut input = text;
+    let mut tokens: Vec<Token> = Vec::new();
+    while !input.is_empty() {
+        match parse_next_token(input) {
+            Ok(result) => {
+                input = result.0;
+                tokens.push(result.1);
+            }
+            Err(err) => {
+                return Err(err.to_string());
+            }
         }
     }
     Ok(tokens)
@@ -401,9 +302,44 @@ pub fn process_article(title: &str, data: &[u8]) -> Result<(), String> {
     println!("title: {}", title);
     match std::str::from_utf8(data) {
         Ok(text) => {
-            tokenize(text)?;
+            match tokenize(text) {
+                Ok(result) => {
+                    for token in result {
+                        println!("{}: {}", token.get_name(), token);
+                    }
+                }
+                Err(_) => {
+                    println!("parse failed");
+                }
+            }
             Ok(())
         }
         Err(e) => Err(e.to_string()),
+    }
+}
+
+pub fn test_parser() {
+    // let text = "The string '''Alan Smithee''' is a nice {{ name }}.\n\nThis is a [[link]]\
+    // \n=== This is a level 3 header===\n some more text\n----\nNext Section\n\
+    // Some text with &lt;ref&gt;html&lt;/ref&gt;\
+    // {{ template1 {{ template2 }} }}\n\
+    // * List Entry 1
+    // * List Entry 2
+    // ";
+
+    // let text = "Some text\n* List Entry 1\n*** List Entry 2\n";
+    // let text = "Some text\n# List Entry 1\n### List Entry 2\n";
+    let text = "Some template {{ that {{ is }} nested }}";
+
+    match tokenize(text) {
+        Ok(result) => {
+            println!("parse success");
+            for token in result {
+                println!("{}: {}", token.get_name(), token);
+            }
+        }
+        Err(err) => {
+            println!("parse failed: {}", err);
+        }
     }
 }
