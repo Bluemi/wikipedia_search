@@ -1,8 +1,10 @@
 use std::fmt::{Display, Formatter};
 use nom::{branch::alt, IResult};
-use nom::bytes::complete::{take, tag, take_until, take_till1, take_while};
+use nom::bytes::complete::{take, tag, take_until, take_till1, take_while, is_not, take_till};
 use nom::character::complete::{line_ending, multispace0};
 use nom::combinator::map;
+use nom::Err::Error;
+use nom::error::Error as NomError;
 use nom::multi::{count, many0, many1, many1_count, many_m_n};
 use nom::sequence::{delimited, pair, preceded, tuple};
 
@@ -16,8 +18,6 @@ enum Token<'a> {
         tag: &'a str,
         content: &'a str,
     },     // "&lt;NAME&gt;"
-    BoldText(&'a str),    // "'''"
-    ItalicText(&'a str),  // "''"
     Header { // =, ==, ..., ======
         text: &'a str,
         level: u8
@@ -39,6 +39,7 @@ enum Token<'a> {
     // "&lt;!--" or "--&gt;"
     Comment,
     Redirect,
+    Ignore,
 }
 
 impl Token<'_> {
@@ -48,15 +49,14 @@ impl Token<'_> {
             Token::Paragraph => "Paragraph",
             Token::Newline => "Newline",
             Token::HtmlTag { .. } => "HtmlTag",
-            Token::BoldText(_) => "BoldText",
-            Token::ItalicText(_) => "ItalicText",
             Token::Header { .. } => "Header",
             Token::Link { .. } => "Link",
-            Token::Template { .. } => "Template",
+            Token::Template (_) => "Template",
             Token::UnorderedListEntry { .. } => "UnorderedListEntry",
             Token::OrderedListEntry { .. } => "OrderedListEntry",
             Token::Comment { .. } => "Comment",
             Token::Redirect => "Redirect",
+            Token::Ignore => "Ignore",
         }
     }
 }
@@ -96,44 +96,65 @@ impl Display for Token<'_> {
             Token::HtmlTag { tag, content } => {
                 write!(f, "<{}>{}</{}>", tag, content, tag)
             }
-            Token::BoldText(text) => {
-                write!(f, "**{}**", text)
-            }
-            Token::ItalicText(text) => {
-                write!(f, "*{}*", text)
-            }
             Token::Link(text) => {
                 write!(f, "[[{}]]", text)
             }
-            Token::Template(text) => {
-                write!(f, "{{{{{}}}}}", text)
+            Token::Template(template) => {
+                write!(f, "{{{{{}}}}}", template)
             }
             Token::Redirect => {
                 write!(f, "#REDIRECT")
+            }
+            Token::Ignore => {
+                write!(f, "")
             }
         }
     }
 }
 
+fn parse_bold_italic(input: &str) -> IResult<&str, Token> {
+    let (input, _) = tag("'''''")(input)?;
+    Ok((input, Token::Ignore))
+}
+
 fn parse_bold(input: &str) -> IResult<&str, Token> {
-    map(
-        delimited(tag("'''"), take_until("'''"), tag("'''")),
-        Token::BoldText,
-    )(input)
+    let (input, _) = tag("'''")(input)?;
+    Ok((input, Token::Ignore))
 }
 
 fn parse_italic(input: &str) -> IResult<&str, Token> {
-    map(
-        delimited(tag("''"), take_until("''"), tag("''")),
-        Token::ItalicText,
-    )(input)
+    let (input, _) = tag("''")(input)?;
+    Ok((input, Token::Ignore))
 }
 
 fn parse_template(input: &str) -> IResult<&str, Token> {
-    map(
-        delimited(tag("{{"), take_until("}}"), tag("}}")),
-        Token::Template,
-    )(input)
+    let (input, _) = tag("{{")(input)?;
+    let (input, template_name) = parse_template_inner(input)?;
+    Ok((input, Token::Template(template_name)))
+}
+
+// this just returns the name of the template
+fn parse_template_inner(input: &str) -> IResult<&str, &str> {
+    let (_, name) = take_till(|c| "}|".contains(c))(input)?;
+    let mut running_input = input;
+    let mut level = 1;
+    loop {
+        let (input, _) = take_while(|c| !"{}|".contains(c))(running_input)?;
+        if let Ok((input, _)) = tag::<&str, &str, NomError<_>>("{{")(input) {
+            level += 1;
+            running_input = input;
+        } else if let Ok((input, _)) = tag::<&str, &str, NomError<_>>("}}")(input) {
+            level -= 1;
+            running_input = input;
+            if level == 0 {
+                break;
+            }
+        } else {
+            let (input, _) = take(1usize)(input)?;
+            running_input = input;
+        }
+    }
+    Ok((running_input, name.trim()))
 }
 
 fn parse_link(input: &str) -> IResult<&str, Token> {
@@ -201,7 +222,7 @@ fn parse_header(input: &str) -> IResult<&str, Token> {
     let (_, level) = many1_count(tag("="))(input)?;
 
     if level == 0 {
-        return Err(nom::Err::Error(nom::error::make_error(input, nom::error::ErrorKind::Fail)));
+        return Err(Error(nom::error::make_error(input, nom::error::ErrorKind::Fail)));
     }
 
     // Match the header text between the `=` symbols
@@ -259,9 +280,27 @@ fn parse_normal_text(input: &str) -> IResult<&str, Token> {
     ))(input)
 }
 
+/*
+fn parse_until<'a>(input: &'a str, end_tag: &'a str) -> IResult<&'a str, Vec<Token<'a>>> {
+    let end_tag = tag::<_, _, NomError<_>>(end_tag);
+    let mut input = input;
+    let mut tokens = Vec::new();
+    while !input.is_empty() {
+        let (cur_input, token) = parse_next_token(input)?;
+        tokens.push(token);
+        input = cur_input;
+        if end_tag(input).is_ok() {
+            break;
+        }
+    }
+    Ok((input, tokens))
+}
+ */
+
 fn parse_next_token(input: &str) -> IResult<&str, Token> {
     alt((
         parse_redirect,
+        parse_bold_italic,
         parse_bold,
         parse_italic,
         parse_template,
@@ -304,9 +343,7 @@ pub fn process_article(title: &str, data: &[u8]) -> Result<(), String> {
         Ok(text) => {
             match tokenize(text) {
                 Ok(result) => {
-                    for token in result {
-                        println!("{}: {}", token.get_name(), token);
-                    }
+                    print_tokens(result);
                 }
                 Err(_) => {
                     println!("parse failed");
@@ -334,12 +371,24 @@ pub fn test_parser() {
     match tokenize(text) {
         Ok(result) => {
             println!("parse success");
-            for token in result {
-                println!("{}: {}", token.get_name(), token);
-            }
+            print_tokens(result);
         }
         Err(err) => {
             println!("parse failed: {}", err);
+        }
+    }
+}
+
+fn print_tokens(result: Vec<Token>) {
+    for token in result {
+        match token {
+            Token::Paragraph | Token::Newline => {
+                println!();
+            }
+            Token::Redirect | Token::Comment | Token::Ignore => {}
+            t => {
+                println!("{}: {}", t.get_name(), t);
+            }
         }
     }
 }
