@@ -18,6 +18,9 @@ enum Token<'a> {
         tag: &'a str,
         content: &'a str,
     },     // "&lt;NAME&gt;"
+    HtmlSign {
+        sign: &'a str,
+    },
     Header { // =, ==, ..., ======
         text: &'a str,
         level: u8
@@ -49,6 +52,7 @@ impl Token<'_> {
             Token::Paragraph => "Paragraph",
             Token::Newline => "Newline",
             Token::HtmlTag { .. } => "HtmlTag",
+            Token::HtmlSign { .. } => "HtmlSign",
             Token::Header { .. } => "Header",
             Token::Link { .. } => "Link",
             Token::Template (_) => "Template",
@@ -95,6 +99,9 @@ impl Display for Token<'_> {
             },
             Token::HtmlTag { tag, content } => {
                 write!(f, "<{}>{}</{}>", tag, content, tag)
+            },
+            Token::HtmlSign { sign } => {
+                write!(f, "&{};", sign)
             }
             Token::Link(text) => {
                 write!(f, "[[{}]]", text)
@@ -189,6 +196,14 @@ fn parse_html(input: &str) -> IResult<&str, Token> {
     Ok((input, Token::HtmlTag { tag: tag_name, content }))
 }
 
+fn parse_html_sign(input: &str) -> IResult<&str, Token> {
+    if let Ok((input, _)) = tag::<_, _, NomError<_>>("&amp;nbsp;")(input) {
+        return Ok((input, Token::HtmlSign { sign: " " }));
+    }
+    let (input, sign) = delimited(tag("&"), take_until(";"), tag(";"))(input)?;
+    Ok((input, Token::HtmlSign { sign }))
+}
+
 fn parse_unordered_list(input: &str) -> IResult<&str, Token> {
     let (input, _) = many1(line_ending)(input)?;
     let (input, level) = many1_count(tag("*"))(input)?;
@@ -266,7 +281,7 @@ fn special_sign(input: char) -> bool {
 }
 
 fn parse_comment(input: &str) -> IResult<&str, Token> {
-    let (input, _) = delimited(tag("&lt;!--"), take_until("-->"), tag("-->"))(input)?;
+    let (input, _) = delimited(tag("&lt;!--"), take_until("--&gt;"), tag("--&gt;"))(input)?;
     Ok((input, Token::Comment))
 }
 
@@ -302,6 +317,7 @@ fn parse_until<'a>(input: &'a str, end_tag: &'a str) -> IResult<&'a str, Vec<Tok
 
 fn parse_next_token(input: &str) -> IResult<&str, Token> {
     alt((
+        parse_comment,
         parse_redirect,
         parse_bold_italic,
         parse_bold,
@@ -316,9 +332,9 @@ fn parse_next_token(input: &str) -> IResult<&str, Token> {
         parse_colon_start,
         parse_semicolon_start,
         parse_html,
+        parse_html_sign,
         parse_paragraph,
         parse_newline,
-        parse_comment,
         parse_normal_text,
     ))(input)
 }
