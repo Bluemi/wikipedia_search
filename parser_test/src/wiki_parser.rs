@@ -179,6 +179,8 @@ fn parse_html(input: &str) -> IResult<&str, Token> {
         take_until("&lt;/"),
     ))(input)?;
 
+    let tag_name = tag_name.split_whitespace().next().unwrap();
+
     // Ensure the closing tag matches the opening tag (e.g., </ref>)
     let (input, _) = preceded(tag("&lt;/"), tag(tag_name))(input)?;
     let (input, _) = tag("&gt;")(input)?;
