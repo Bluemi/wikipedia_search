@@ -158,10 +158,11 @@ fn parse_template_inner(input: &str) -> IResult<&str, &str> {
 }
 
 fn parse_link(input: &str) -> IResult<&str, Token> {
-    map(
-        delimited(tag("[["), take_until("]]"), tag("]]")),
-        Token::Link,
-    )(input)
+    let (input, content) = delimited(tag("[["), take_until("]]"), tag("]]"))(input)?;
+
+    let content = content.split("|").last().unwrap();
+
+    Ok((input, Token::Link(content)))
 }
 
 fn parse_single_link(input: &str) -> IResult<&str, Token> {
