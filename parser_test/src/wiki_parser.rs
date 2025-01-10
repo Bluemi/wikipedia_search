@@ -31,12 +31,12 @@ enum Token<'a> {
     Template(&'a str),
     // *
     UnorderedListEntry {
-        text: &'a str,
+        tokens: Vec<Token<'a>>,
         level: u8,
     },
     // #
     OrderedListEntry {
-        text: &'a str,
+        tokens: Vec<Token<'a>>,
         level: u8,
     },
     // "&lt;!--" or "--&gt;"
@@ -63,6 +63,58 @@ impl Token<'_> {
             Token::Ignore => "Ignore",
         }
     }
+
+    fn get_plain_text<'a>(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Token::Text(text) => {
+                write!(f, "{}", text)
+            },
+            Token::Paragraph => {
+                write!(f, "\n")
+            },
+            Token::Newline => {
+                write!(f, "\n")
+            },
+            Token::HtmlTag { tag, content } => {
+                write!(f, "<{}>{}</{}>", tag, content, tag)
+            }
+            Token::HtmlSign { sign } => {
+                write!(f, "&{};", sign)
+            }
+            Token::Header { text, .. } => {
+                write!(f, "\n{}\n", text.to_uppercase())
+            }
+            Token::Link(content) => {
+                write!(f, "{}", content)
+            }
+            Token::Template(name) => {
+                write!(f, "{}", name)
+            }
+            Token::UnorderedListEntry { level, tokens } => {
+                write!(f, "{} ", "*".repeat(*level as usize))?;
+                for t in tokens {
+                    t.get_plain_text(f)?;
+                }
+                write!(f, "\n")
+            }
+            Token::OrderedListEntry { level, tokens } => {
+                write!(f, "{} ", "#".repeat(*level as usize))?;
+                for t in tokens {
+                    t.get_plain_text(f)?;
+                }
+                write!(f, "\n")
+            }
+            Token::Comment => {
+                write!(f, "")
+            }
+            Token::Redirect => {
+                write!(f, "")
+            }
+            Token::Ignore => {
+                write!(f, "")
+            }
+        }
+    }
 }
 
 impl Display for Token<'_> {
@@ -80,19 +132,25 @@ impl Display for Token<'_> {
             Token::Header { text, level } => {
                 write!(f, "{}{}{}", "=".repeat(*level as usize), text, "=".repeat(*level as usize))
             }
-            Token::UnorderedListEntry { level, text } => {
+            Token::UnorderedListEntry { level, tokens: content } => {
                 write!(
-                    f, "{} {}",
+                    f, "{} ",
                     "*".repeat(*level as usize),
-                    text
-                )
+                )?;
+                for t in content {
+                    write!(f, "{}", t)?;
+                }
+                write!(f, "\n")
             }
-            Token::OrderedListEntry { level, text } => {
+            Token::OrderedListEntry { level, tokens } => {
                 write!(
-                    f, "{} {}",
+                    f, "{} ",
                     "1.".repeat(*level as usize),
-                    text,
-                )
+                )?;
+                for t in tokens {
+                    write!(f, "{}", t)?;
+                }
+                write!(f, "\n")
             }
             Token::Comment { .. } => {
                 write!(f, "")
@@ -207,15 +265,17 @@ fn parse_html_sign(input: &str) -> IResult<&str, Token> {
 fn parse_unordered_list(input: &str) -> IResult<&str, Token> {
     let (input, _) = many1(line_ending)(input)?;
     let (input, level) = many1_count(tag("*"))(input)?;
-    let (input, text) = take_until("\n")(input)?;
-    Ok((input, Token::UnorderedListEntry { level: level as u8, text: text.trim() }))
+    let (input, tokens) = parse_until(input, "\n")?;
+    // let (input, text) = take_until("\n")(input)?;
+    Ok((input, Token::UnorderedListEntry { level: level as u8, tokens }))
 }
 
 fn parse_ordered_list(input: &str) -> IResult<&str, Token> {
     let (input, _) = many1(line_ending)(input)?;
     let (input, level) = many1_count(tag("#"))(input)?;
-    let (input, text) = take_until("\n")(input)?;
-    Ok((input, Token::OrderedListEntry { level: level as u8, text: text.trim() }))
+    // let (input, text) = take_until("\n")(input)?;
+    let (input, tokens) = parse_until(input, "\n")?;
+    Ok((input, Token::OrderedListEntry { level: level as u8, tokens }))
 }
 
 fn parse_redirect(input: &str) -> IResult<&str, Token> {
@@ -298,7 +358,6 @@ fn parse_normal_text(input: &str) -> IResult<&str, Token> {
     ))(input)
 }
 
-/*
 fn parse_until<'a>(input: &'a str, end_tag: &'a str) -> IResult<&'a str, Vec<Token<'a>>> {
     let end_tag = tag::<_, _, NomError<_>>(end_tag);
     let mut input = input;
@@ -313,7 +372,6 @@ fn parse_until<'a>(input: &'a str, end_tag: &'a str) -> IResult<&'a str, Vec<Tok
     }
     Ok((input, tokens))
 }
- */
 
 fn parse_next_token(input: &str) -> IResult<&str, Token> {
     alt((
@@ -362,7 +420,7 @@ pub fn process_article(title: &str, data: &[u8]) -> Result<(), String> {
         Ok(text) => {
             match tokenize(text) {
                 Ok(result) => {
-                    print_tokens(result);
+                    print_tokens(&result);
                 }
                 Err(_) => {
                     println!("parse failed");
@@ -390,7 +448,7 @@ pub fn test_parser() {
     match tokenize(text) {
         Ok(result) => {
             println!("parse success");
-            print_tokens(result);
+            print_tokens(&result);
         }
         Err(err) => {
             println!("parse failed: {}", err);
@@ -398,13 +456,18 @@ pub fn test_parser() {
     }
 }
 
-fn print_tokens(result: Vec<Token>) {
+fn print_tokens(result: &Vec<Token>) {
     for token in result {
         match token {
             Token::Paragraph | Token::Newline => {
                 println!();
             }
             Token::Redirect | Token::Comment | Token::Ignore => {}
+            Token::UnorderedListEntry { tokens, .. }  => {
+                println!();
+                println!("{}: ", token.get_name());
+                print_tokens(tokens);
+            }
             t => {
                 println!("{}: {}", t.get_name(), t);
             }
