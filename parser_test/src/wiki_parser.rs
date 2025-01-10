@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter};
 use nom::{branch::alt, IResult};
-use nom::bytes::complete::{take, tag, take_until, take_till1, take_while, is_not, take_till};
+use nom::bytes::complete::{take, tag, take_until, take_till1, take_while, take_till};
 use nom::character::complete::{line_ending, multispace0};
 use nom::combinator::map;
 use nom::Err::Error;
@@ -66,58 +66,31 @@ impl Token<'_> {
         }
     }
 
-    fn get_plain_text<'a>(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn get_plain_text(&self) -> String {
         match self {
-            Token::Text(text) => {
-                write!(f, "{}", text)
-            },
-            Token::Paragraph => {
-                write!(f, "\n")
-            },
-            Token::Newline => {
-                write!(f, "\n")
-            },
-            Token::HtmlTag { tag, content } => {
-                write!(f, "<{}>{}</{}>", tag, content, tag)
-            }
-            Token::HtmlSign { sign } => {
-                write!(f, "&{};", sign)
-            }
+            Token::Text(text) => text.to_string(),
+            Token::Paragraph | Token::Newline => "\n".to_owned(),
             Token::Header { text, .. } => {
-                write!(f, "\n{}\n", text.to_uppercase())
+                format!("\n{}\n", text.to_uppercase())
             }
-            Token::Link(content) => {
-                write!(f, "{}", content)
-            }
-            Token::Template(name) => {
-                write!(f, "{}", name)
-            }
-            Token::Table(content) => {
-                write!(f, "{}", content)
-            }
+            Token::Link(content) => content.to_string(),
             Token::UnorderedListEntry { level, tokens } => {
-                write!(f, "{} ", "*".repeat(*level as usize))?;
+                let mut result = "*".repeat(*level as usize);
                 for t in tokens {
-                    t.get_plain_text(f)?;
+                    result.push_str(&t.get_plain_text());
                 }
-                write!(f, "\n")
+                result.push('\n');
+                result
             }
             Token::OrderedListEntry { level, tokens } => {
-                write!(f, "{} ", "#".repeat(*level as usize))?;
+                let mut result = "*".repeat(*level as usize);
                 for t in tokens {
-                    t.get_plain_text(f)?;
+                    result.push_str(&t.get_plain_text());
                 }
-                write!(f, "\n")
+                result.push('\n');
+                result
             }
-            Token::Comment => {
-                write!(f, "")
-            }
-            Token::Redirect => {
-                write!(f, "")
-            }
-            Token::Ignore => {
-                write!(f, "")
-            }
+            Token::Ignore | Token::HtmlTag {..} | Token::Redirect | Token::HtmlSign {..} | Token::Template(_) | Token::Table(_) | Token::Comment  => String::new(),
         }
     }
 }
@@ -436,7 +409,7 @@ pub fn process_article(title: &str, data: &[u8]) -> Result<(), String> {
         Ok(text) => {
             match tokenize(text) {
                 Ok(result) => {
-                    print_tokens(&result);
+                    print_tokens_plain(&result);
                 }
                 Err(_) => {
                     println!("parse failed");
@@ -448,6 +421,7 @@ pub fn process_article(title: &str, data: &[u8]) -> Result<(), String> {
     }
 }
 
+#[allow(dead_code)]
 pub fn test_parser() {
     // let text = "The string '''Alan Smithee''' is a nice {{ name }}.\n\nThis is a [[link]]\
     // \n=== This is a level 3 header===\n some more text\n----\nNext Section\n\
@@ -472,6 +446,7 @@ pub fn test_parser() {
     }
 }
 
+#[allow(dead_code)]
 fn print_tokens(result: &Vec<Token>) {
     for token in result {
         match token {
@@ -488,5 +463,11 @@ fn print_tokens(result: &Vec<Token>) {
                 println!("{}: {}", t.get_name(), t);
             }
         }
+    }
+}
+
+fn print_tokens_plain(result: &Vec<Token>) {
+    for token in result {
+        print!("{}", &token.get_plain_text());
     }
 }

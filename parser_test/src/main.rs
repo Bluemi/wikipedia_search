@@ -7,6 +7,7 @@ use quick_xml::Reader;
 use quick_xml::events::Event;
 use crate::wiki_parser::{process_article, test_parser};
 
+#[allow(dead_code)]
 fn main2() {
     test_parser();
 }
