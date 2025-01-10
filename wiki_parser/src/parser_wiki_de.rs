@@ -229,16 +229,16 @@ fn parse_single_link(input: &str) -> IResult<&str, Token> {
 fn parse_html(input: &str) -> IResult<&str, Token> {
     let (input, (tag_name, content)) = tuple((
         // Match the opening tag (e.g., <ref>)
-        delimited(tag("&lt;"), take_until("&gt;"), tag("&gt;")),
+        delimited(tag("<"), take_until(">"), tag(">")),
         // Match the content inside the tags
-        take_until("&lt;/"),
+        take_until("</"),
     ))(input)?;
 
     let tag_name: &str = tag_name.split_whitespace().next().unwrap_or("");
 
     // Ensure the closing tag matches the opening tag (e.g., </ref>)
-    let (input, _) = preceded(tag("&lt;/"), tag(tag_name))(input)?;
-    let (input, _) = tag("&gt;")(input)?;
+    let (input, _) = preceded(tag("</"), tag(tag_name))(input)?;
+    let (input, _) = tag(">")(input)?;
 
     Ok((input, Token::HtmlTag { tag: tag_name, content }))
 }
@@ -325,13 +325,15 @@ fn special_sign(input: char) -> bool {
         '\'' => true,
         '\n' => true,
         '&' => true,
+        '<' => true,
+        '>' => true,
         '#' => true,
         _ => false,
     }
 }
 
 fn parse_comment(input: &str) -> IResult<&str, Token> {
-    let (input, _) = delimited(tag("&lt;!--"), take_until("--&gt;"), tag("--&gt;"))(input)?;
+    let (input, _) = delimited(tag("<!--"), take_until("-->"), tag("-->"))(input)?;
     Ok((input, Token::Comment))
 }
 

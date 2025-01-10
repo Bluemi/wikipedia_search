@@ -7,4 +7,7 @@ case "$1" in
 	d)
 		python3 src/wiki_data.py
 		;;
+	*)
+		echo "use m or d"
+		;;
 esac

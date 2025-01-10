@@ -30,6 +30,9 @@ fn tokens_to_vec(tokens: &Vec<Token>) -> Vec<String> {
                     parts.push(current_part);
                     current_part = String::new();
                 }
+                if matches!(text.to_lowercase().trim(), "einzelnachweise" | "literatur" | "weblinks") {
+                    break;
+                }
                 parts.push(text.to_string());
             }
             Token::Link(content) => {
