@@ -5,6 +5,10 @@ case "$1" in
 		shift
 		python3 src/main.py "$@"
 		;;
+	c)
+		shift
+		python3 src/create_graph.py "$@"
+		;;
 	m)
 		python3 src/model_encoding.py
 		;;
