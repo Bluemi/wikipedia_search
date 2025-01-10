@@ -29,6 +29,7 @@ enum Token<'a> {
     Link(&'a str),
     // {{ or }}
     Template(&'a str),
+    Table(&'a str),
     // *
     UnorderedListEntry {
         tokens: Vec<Token<'a>>,
@@ -56,6 +57,7 @@ impl Token<'_> {
             Token::Header { .. } => "Header",
             Token::Link { .. } => "Link",
             Token::Template (_) => "Template",
+            Token::Table (_) => "Table",
             Token::UnorderedListEntry { .. } => "UnorderedListEntry",
             Token::OrderedListEntry { .. } => "OrderedListEntry",
             Token::Comment { .. } => "Comment",
@@ -89,6 +91,9 @@ impl Token<'_> {
             }
             Token::Template(name) => {
                 write!(f, "{}", name)
+            }
+            Token::Table(content) => {
+                write!(f, "{}", content)
             }
             Token::UnorderedListEntry { level, tokens } => {
                 write!(f, "{} ", "*".repeat(*level as usize))?;
@@ -164,8 +169,11 @@ impl Display for Token<'_> {
             Token::Link(text) => {
                 write!(f, "[[{}]]", text)
             }
-            Token::Template(template) => {
-                write!(f, "{{{{{}}}}}", template)
+            Token::Template(name) => {
+                write!(f, "{{{{{}}}}}", name)
+            }
+            Token::Table(_) => {
+                write!(f, "{{| TABLE |}}")
             }
             Token::Redirect => {
                 write!(f, "#REDIRECT")
@@ -220,6 +228,13 @@ fn parse_template_inner(input: &str) -> IResult<&str, &str> {
         }
     }
     Ok((running_input, name.trim()))
+}
+
+fn parse_table(input: &str) -> IResult<&str, Token> {
+    let (input, _) = tag("{|")(input)?;
+    let (input, content) = take_until("|}")(input)?;
+    let (input, _) = tag("|}")(input)?;
+    Ok((input, Token::Table(content) ))
 }
 
 fn parse_link(input: &str) -> IResult<&str, Token> {
@@ -381,6 +396,7 @@ fn parse_next_token(input: &str) -> IResult<&str, Token> {
         parse_bold,
         parse_italic,
         parse_template,
+        parse_table,
         parse_link,
         parse_single_link,
         parse_header,

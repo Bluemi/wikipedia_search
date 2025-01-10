@@ -30,6 +30,7 @@ fn main() -> std::io::Result<()> {
     let mut in_title = false;
     let mut in_text = false;
     let mut current_title: Option<String> = None;
+    let mut counter = 0;
 
     // let mut counter = 0;
 
@@ -58,8 +59,11 @@ fn main() -> std::io::Result<()> {
                     // assert!(current_title.is_some());
                     if let Some(title) = &current_title {
                         // counter += process_text_mediawiki_parser(&title, e.as_ref());
-                        process_article(title, e.as_ref()).expect("Processing article failed.");
-                        break;
+                        if counter == 1 {
+                            process_article(title, e.as_ref()).expect("Processing article failed.");
+                            break;
+                        }
+                        counter += 1;
                     } else {
                         // println!("{}", String::from_utf8_lossy(e.as_ref()));
                     }
