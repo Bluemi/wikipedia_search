@@ -1,4 +1,5 @@
 use std::fmt::{Display, Formatter};
+use std::io::Write;
 use nom::{branch::alt, IResult};
 use nom::bytes::complete::{take, tag, take_until, take_till1, take_while, take_till};
 use nom::character::complete::{line_ending, multispace0};
@@ -233,7 +234,7 @@ fn parse_html(input: &str) -> IResult<&str, Token> {
         take_until("&lt;/"),
     ))(input)?;
 
-    let tag_name = tag_name.split_whitespace().next().unwrap();
+    let tag_name: &str = tag_name.split_whitespace().next().unwrap_or("");
 
     // Ensure the closing tag matches the opening tag (e.g., </ref>)
     let (input, _) = preceded(tag("&lt;/"), tag(tag_name))(input)?;
@@ -324,6 +325,7 @@ fn special_sign(input: char) -> bool {
         '\'' => true,
         '\n' => true,
         '&' => true,
+        '#' => true,
         _ => false,
     }
 }
@@ -410,6 +412,8 @@ pub fn process_article(title: &str, data: &[u8]) -> Result<(), String> {
             match tokenize(text) {
                 Ok(result) => {
                     print_tokens_plain(&result);
+                    // print!(".");
+                    // std::io::stdout().flush().expect("failed to flush stdout");
                 }
                 Err(_) => {
                     println!("parse failed");

@@ -33,8 +33,6 @@ fn main() -> std::io::Result<()> {
     let mut current_title: Option<String> = None;
     let mut counter = 0;
 
-    // let mut counter = 0;
-
     // Process the XML file
     loop {
         match xml_reader.read_event_into(&mut buf) {
@@ -60,10 +58,13 @@ fn main() -> std::io::Result<()> {
                     // assert!(current_title.is_some());
                     if let Some(title) = &current_title {
                         // counter += process_text_mediawiki_parser(&title, e.as_ref());
+                        process_article(title, e.as_ref()).expect("Processing article failed.");
+                        /*
                         if counter == 1 {
                             process_article(title, e.as_ref()).expect("Processing article failed.");
                             break;
                         }
+                         */
                         counter += 1;
                     } else {
                         // println!("{}", String::from_utf8_lossy(e.as_ref()));
@@ -91,7 +92,7 @@ fn main() -> std::io::Result<()> {
          */
     }
 
-    // println!("counter: {}", counter);
+    println!("counter: {}", counter);
 
     Ok(())
 }
