@@ -11,7 +11,7 @@ use nom::sequence::{delimited, pair, preceded, tuple};
 
 // TODO: replace &nbsp; with space
 #[derive(Debug)]
-enum Token<'a> {
+pub enum Token<'a> {
     Text(&'a str),  // Some word
     Paragraph,     // double newline
     Newline, // single newline
@@ -388,7 +388,7 @@ fn parse_next_token(input: &str) -> IResult<&str, Token> {
     ))(input)
 }
 
-fn tokenize(text: &str) -> Result<Vec<Token>, String> {
+pub fn tokenize(text: &str) -> Result<Vec<Token>, String> {
     let mut input = text;
     let mut tokens: Vec<Token> = Vec::new();
     while !input.is_empty() {
