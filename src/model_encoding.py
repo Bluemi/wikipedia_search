@@ -1,10 +1,12 @@
-import time
+# from sentence_transformers import SentenceTransformer
+# Load model directly
+from transformers import AutoTokenizer, AutoModel, pipeline
 
-from sentence_transformers import SentenceTransformer
-import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
+tokenizer = AutoTokenizer.from_pretrained("danielheinz/e5-base-sts-en-de")
+model = AutoModel.from_pretrained("danielheinz/e5-base-sts-en-de")
 
-bi_model = SentenceTransformer("svalabs/bi-electra-ms-marco-german-uncased")
+pipe = pipeline("feature-extraction", model="danielheinz/e5-base-sts-en-de")
+# bi_model = SentenceTransformer("svalabs/bi-electra-ms-marco-german-uncased")
 
 # specify documents and queries
 docs = [
@@ -48,24 +50,12 @@ Auf einen Quartschritt abwärts folgt ein aufsteigender gebrochener E-Dur-Akkord
 Das komplette erste Thema wird verändert wiederholt. Die Doppelanlage, Paarung als „Aufstellung und Antwort eines Themas“ ist auch als „Original und Mutante [...] ihrem Wesen nach [...] ‚Durchführung‘“.[18] An die Stelle der kammermusikalischen ersten Version tritt über einem Klangfundament mit tiefen Streichern und Blechblasinstrumenten das Thema in „klangflächenartige[r] Unisonoführung“ von Holzbläsern und Violinen „in Art der Mixturen“ auf der Orgel.[7] Nach einer Steigerung mit Höhepunkt leitet ein Epilog zum zweiten Abschnitt über,[19] der in Analogie zum Orgelspiel durch einen deutlichen „Registerwechsel“ markiert wird.[7] 
 '''
 
-long_text = long_text.replace('\n', ' ')
-
-features = bi_model.encode('some text')
-
 
 def main():
-    tokenizer = bi_model.tokenizer
-    words = long_text.split(' ')
-    for l in [300, 400]:
-        short_text = ' '.join(words[:l])
-        tokens = tokenizer.encode(short_text, add_special_tokens=True)
-        print(f"words={l}  #tokens={len(tokens)}")
-
-    # Get the tokenizer
-
-    # Get the maximum content length
-    max_length = tokenizer.model_max_length
-    print(f"Maximum content length: {max_length}")
+    tokens = tokenizer(queries, padding=True, truncation=True, return_tensors="pt")
+    result = model(**tokens)
+    print('num queries:', len(queries))
+    print(result.last_hidden_state.detach().mean(dim=1).numpy().shape)
 
 
 if __name__ == '__main__':

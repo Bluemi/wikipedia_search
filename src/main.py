@@ -2,15 +2,18 @@ import argparse
 import bz2
 import os
 
-import numpy as np
 import wiki_parser
 
 import mwxml
 from tqdm import tqdm
 
+from models import ModelPipeline
+
+
 DEFAULT_DATA_PATH = 'data/input/dewiki-latest-pages-articles-multistream1.xml-p1p297012.bz2'
-BATCH_SIZE = 1024
+BATCH_SIZE = 64
 MIN_WORDS_PER_PART = 20
+MODEL = 'e5_base'
 
 
 def get_link(title, section) -> str:
@@ -36,8 +39,16 @@ def main():
         model = None
     else:
         print('loading model... ', end='', flush=True)
-        from sentence_transformers import SentenceTransformer
-        model = SentenceTransformer("svalabs/bi-electra-ms-marco-german-uncased")
+        if MODEL == 'svalabs':
+            from sentence_transformers import SentenceTransformer
+            model = SentenceTransformer("svalabs/bi-electra-ms-marco-german-uncased")
+        elif MODEL == 'jinaai':
+            from transformers import pipeline
+            model = pipeline("feature-extraction", model="jinaai/jina-embeddings-v3", trust_remote_code=True)
+        elif MODEL == 'e5_base':
+            model = ModelPipeline.create_e5_base_sts_en_de()
+        else:
+            raise ValueError('Unknown model: {}'.format(MODEL))
         print('done', flush=True)
 
     links = []
@@ -83,7 +94,7 @@ def main():
 
 def extract_features(all_features, current_batch, model):
     if model is not None:
-        features = model.encode(current_batch)
+        features = model(current_batch)
         all_features.append(features)
 
 

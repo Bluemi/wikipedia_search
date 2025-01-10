@@ -3,6 +3,8 @@ import os
 
 import deglib
 
+from models import ModelPipeline
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -13,8 +15,7 @@ def parse_args():
 def main():
     args = parse_args()
     print('loading model... ', end='', flush=True)
-    from sentence_transformers import SentenceTransformer
-    model = SentenceTransformer("svalabs/bi-electra-ms-marco-german-uncased")
+    model = ModelPipeline.create_e5_base_sts_en_de()
     print('done', flush=True)
     print('loading graph... ', end='', flush=True)
     graph = deglib.graph.load_readonly_graph(os.path.join(args.indir, 'index.deg'))
@@ -28,7 +29,7 @@ def main():
         search_text = input('Enter search text: ')
         if not search_text:
             break
-        search_feature = model.encode(search_text)
+        search_feature = model(search_text)
         indices, diffs = graph.search(search_feature, 0.2, 10)
         indices = indices[0]
         for i in indices:
