@@ -1,14 +1,14 @@
 import argparse
 import bz2
+import os
 
 import numpy as np
 import wiki_parser
 
-from sentence_transformers import SentenceTransformer
 import mwxml
 from tqdm import tqdm
 
-DEFAULT_DATA_PATH = 'data/dewiki-latest-pages-articles-multistream1.xml-p1p297012.bz2'
+DEFAULT_DATA_PATH = 'data/input/dewiki-latest-pages-articles-multistream1.xml-p1p297012.bz2'
 BATCH_SIZE = 1024
 MIN_WORDS_PER_PART = 20
 
@@ -23,10 +23,10 @@ def get_link(title, section) -> str:
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument('outdir', type=str)
     parser.add_argument('--dry', '-d', action='store_true')
     parser.add_argument('-n', type=int, default=0)
     parser.add_argument('--data-path', type=str, default=DEFAULT_DATA_PATH)
-    parser.add_argument('--outdir', type=str, default='data/features')
     return parser.parse_args()
 
 
@@ -36,6 +36,7 @@ def main():
         model = None
     else:
         print('loading model... ', end='', flush=True)
+        from sentence_transformers import SentenceTransformer
         model = SentenceTransformer("svalabs/bi-electra-ms-marco-german-uncased")
         print('done', flush=True)
 
@@ -48,6 +49,10 @@ def main():
             if args.n and site_index == args.n:
                 break
             current_title = site.title
+
+            # those articles discuss remove candidates
+            if 'Löschkandidaten' in current_title:
+                continue
             current_link = get_link(current_title, None)
             revision = next(site)
             result = wiki_parser.parse_wiki(revision.text)
@@ -64,13 +69,14 @@ def main():
 
     extract_features(all_features, current_batch, model)
 
-    output_file = f"{args.outdir}/features.bin"
-    dump_vectors_to_binary(output_file, all_features)
-    print(f'Features saved to {output_file}')
+    if not args.dry:
+        output_file = os.path.join(args.outdir, 'features.bin')
+        dump_vectors_to_binary(output_file, all_features)
+        print(f'Features saved to {output_file}')
 
-    link_file = f"{args.outdir}/links.txt"
+    link_file = os.path.join(args.outdir, 'links.txt')
     with open(link_file, 'w') as f:
-        f.writelines(links)
+        f.write('\n'.join(links))
 
     print('num links={}  num_features={}'.format(len(links), sum(f.shape[0] for f in all_features)))
 
@@ -91,7 +97,8 @@ def dump_vectors_to_binary(filename, vector_list):
     """
     with open(filename, 'wb') as f:
         for vector in vector_list:
-            np.save(f, vector)
+            data = vector.tobytes()
+            f.write(data)
 
 
 if __name__ == '__main__':
