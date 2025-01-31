@@ -3,7 +3,9 @@ import os
 
 import deglib
 
-from models import ModelPipeline
+from models import ModelPipeline, l2_normalize
+
+NORMALIZE = True
 
 
 def parse_args():
@@ -31,7 +33,9 @@ def main():
         if not search_text:
             break
         search_feature = model(search_text)
-        indices, diffs = graph.search(search_feature, 0.2, 10)
+        if NORMALIZE:
+            search_feature = l2_normalize(search_feature)
+        indices, diffs = graph.search(search_feature, 0.2, 20)
         indices = indices[0]
         for i in indices:
             print(links[i])

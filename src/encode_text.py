@@ -7,13 +7,12 @@ import wiki_parser
 import mwxml
 from tqdm import tqdm
 
-from models import ModelPipeline
-
+from models import ModelPipeline, l2_normalize
 
 DEFAULT_DATA_PATH = 'data/input/dewiki-latest-pages-articles-multistream1.xml-p1p297012.bz2'
 BATCH_SIZE = 64
 MIN_WORDS_PER_PART = 20
-MODEL = 'e5_base'
+MODEL = 'jina'
 
 
 def get_link(title, section) -> str:
@@ -111,7 +110,7 @@ def dump_vectors_to_binary(filename, vector_list):
     """
     print(vector_list[0].shape, vector_list[0].dtype)
     with open(filename, 'wb') as f:
-        for vector in vector_list:
+        for i, vector in enumerate(vector_list):
             data = vector.tobytes()
             f.write(data)
 

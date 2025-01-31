@@ -5,8 +5,12 @@ import time
 import numpy as np
 import deglib
 
-DIM = 768
+from models import l2_normalize
+
+# DIM = 768
+DIM = 1024
 CHUNK_SIZE = 1024
+NORMALIZE = True
 
 
 def parse_args():
@@ -56,6 +60,9 @@ def build_deglib_from_data(data_file: str, num_samples: int, _quantize: bool = F
             max_index = min(min_index + CHUNK_SIZE, num_samples)
             data_bytes = df.read(DIM * CHUNK_SIZE * 4)
             chunk = np.frombuffer(data_bytes, dtype=np.float32).reshape(-1, DIM)
+
+            if NORMALIZE:
+                chunk = l2_normalize(chunk)
 
             builder.add_entry(
                 labels[min_index:max_index],

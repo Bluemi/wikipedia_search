@@ -1,5 +1,6 @@
 from typing import List
 
+import numpy as np
 import torch
 from transformers import AutoTokenizer, AutoModel
 
@@ -29,3 +30,7 @@ class ModelPipeline:
         result = result.last_hidden_state.detach().mean(dim=1)
         result = result.to(torch.float32)
         return result.cpu().numpy()
+
+
+def l2_normalize(arr):
+    return arr / np.linalg.norm(arr, axis=1, keepdims=True)
