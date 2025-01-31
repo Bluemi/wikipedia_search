@@ -94,10 +94,11 @@ def main():
     print('num links={}  num_features={}'.format(len(links), sum(f.shape[0] for f in all_features)))
 
 
-def extract_features(all_features, current_batch, model):
-    if model is not None:
-        features = model(current_batch)
-        all_features.append(features)
+def extract_features(all_features, batch, model):
+    if batch:
+        if model is not None:
+            features = model(batch)
+            all_features.append(features)
 
 
 def dump_vectors_to_binary(filename, vector_list):
