@@ -7,7 +7,7 @@ case "$1" in
 		;;
 	e)
 		shift
-		python3 src/main.py "$@"
+		python3 src/encode_text.py "$@"
 		;;
 	c)
 		shift

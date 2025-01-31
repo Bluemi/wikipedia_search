@@ -15,7 +15,8 @@ def parse_args():
 def main():
     args = parse_args()
     print('loading model... ', end='', flush=True)
-    model = ModelPipeline.create_e5_base_sts_en_de()
+    # model = ModelPipeline.create_e5_base_sts_en_de()
+    model = ModelPipeline.create_jina_embeddings_v3()
     print('done', flush=True)
     print('loading graph... ', end='', flush=True)
     graph = deglib.graph.load_readonly_graph(os.path.join(args.indir, 'index.deg'))

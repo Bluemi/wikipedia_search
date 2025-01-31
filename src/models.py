@@ -19,11 +19,13 @@ class ModelPipeline:
     @staticmethod
     def create_jina_embeddings_v3():
         tokenizer = AutoTokenizer.from_pretrained("jinaai/jina-embeddings-v3")
-        model = AutoModel.from_pretrained("jinaai/jina-embeddings-v3")
+        model = AutoModel.from_pretrained("jinaai/jina-embeddings-v3", trust_remote_code=True)
         return ModelPipeline(tokenizer, model)
 
     def __call__(self, texts: List[str]):
         tokens = self.tokenizer(texts, padding=True, truncation=True, return_tensors="pt")
         tokens = {key: val.to(self.device) for key, val in tokens.items()}
         result = self.model(**tokens)
-        return result.last_hidden_state.detach().mean(dim=1).cpu().numpy()
+        result = result.last_hidden_state.detach().mean(dim=1)
+        result = result.to(torch.float32)
+        return result.cpu().numpy()

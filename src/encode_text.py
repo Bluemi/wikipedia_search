@@ -47,6 +47,8 @@ def main():
             model = pipeline("retrieval.passage", model="jinaai/jina-embeddings-v3", trust_remote_code=True)
         elif MODEL == 'e5_base':
             model = ModelPipeline.create_e5_base_sts_en_de()
+        elif MODEL == 'jina':
+            model = ModelPipeline.create_jina_embeddings_v3()
         else:
             raise ValueError('Unknown model: {}'.format(MODEL))
         print('done', flush=True)
@@ -106,6 +108,7 @@ def dump_vectors_to_binary(filename, vector_list):
         filename (str): The output filename to save the vectors.
         vector_list (list of numpy.ndarray): List of numpy arrays to save.
     """
+    print(vector_list[0].shape, vector_list[0].dtype)
     with open(filename, 'wb') as f:
         for vector in vector_list:
             data = vector.tobytes()
