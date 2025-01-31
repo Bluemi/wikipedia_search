@@ -14,7 +14,8 @@ case "$1" in
 		python3 src/create_graph.py "$@"
 		;;
 	m)
-		python3 src/model_encoding.py
+		# python3 src/model_tests/model_encoding.py
+		python3 src/model_tests/jina.py
 		;;
 	d)
 		python3 src/wiki_data.py

@@ -16,6 +16,12 @@ class ModelPipeline:
         model = AutoModel.from_pretrained("danielheinz/e5-base-sts-en-de")
         return ModelPipeline(tokenizer, model)
 
+    @staticmethod
+    def create_jina_embeddings_v3():
+        tokenizer = AutoTokenizer.from_pretrained("jinaai/jina-embeddings-v3")
+        model = AutoModel.from_pretrained("jinaai/jina-embeddings-v3")
+        return ModelPipeline(tokenizer, model)
+
     def __call__(self, texts: List[str]):
         tokens = self.tokenizer(texts, padding=True, truncation=True, return_tensors="pt")
         tokens = {key: val.to(self.device) for key, val in tokens.items()}

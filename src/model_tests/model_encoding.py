@@ -2,11 +2,15 @@
 # Load model directly
 from transformers import AutoTokenizer, AutoModel, pipeline
 
-tokenizer = AutoTokenizer.from_pretrained("danielheinz/e5-base-sts-en-de")
-model = AutoModel.from_pretrained("danielheinz/e5-base-sts-en-de")
+# tokenizer = AutoTokenizer.from_pretrained("danielheinz/e5-base-sts-en-de")
+# model = AutoModel.from_pretrained("danielheinz/e5-base-sts-en-de")
 
-pipe = pipeline("feature-extraction", model="danielheinz/e5-base-sts-en-de")
+# pipe = pipeline("feature-extraction", model="danielheinz/e5-base-sts-en-de")
 # bi_model = SentenceTransformer("svalabs/bi-electra-ms-marco-german-uncased")
+
+# Use a pipeline as a high-level helper
+pipe_jina_passage = pipeline("retrieval.passage", model="jinaai/jina-embeddings-v3", trust_remote_code=True)
+pipe_jina_query = pipeline("retrieval.query", model="jinaai/jina-embeddings-v3", trust_remote_code=True)
 
 # specify documents and queries
 docs = [
@@ -52,10 +56,12 @@ Das komplette erste Thema wird verändert wiederholt. Die Doppelanlage, Paarung 
 
 
 def main():
-    tokens = tokenizer(queries, padding=True, truncation=True, return_tensors="pt")
-    result = model(**tokens)
-    print('num queries:', len(queries))
-    print(result.last_hidden_state.detach().mean(dim=1).numpy().shape)
+    # tokens = tokenizer(queries, padding=True, truncation=True, return_tensors="pt")
+    # result = model(**tokens)
+    encoded_queries = pipe_jina_query(queries)
+    print(encoded_queries)
+    # print('num queries:', len(queries))
+    # print(result.last_hidden_state.detach().mean(dim=1).numpy().shape)
 
 
 if __name__ == '__main__':

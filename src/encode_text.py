@@ -44,7 +44,7 @@ def main():
             model = SentenceTransformer("svalabs/bi-electra-ms-marco-german-uncased")
         elif MODEL == 'jinaai':
             from transformers import pipeline
-            model = pipeline("feature-extraction", model="jinaai/jina-embeddings-v3", trust_remote_code=True)
+            model = pipeline("retrieval.passage", model="jinaai/jina-embeddings-v3", trust_remote_code=True)
         elif MODEL == 'e5_base':
             model = ModelPipeline.create_e5_base_sts_en_de()
         else:
