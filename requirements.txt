@@ -2,3 +2,5 @@ tqdm
 transformers
 torch
 spacy
+hnswlib
+deglib

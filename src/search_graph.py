@@ -3,7 +3,8 @@ import os
 
 import deglib
 
-from models import ModelPipeline, l2_normalize
+from models import ModelPipeline
+from utils import l2_normalize
 
 NORMALIZE = True
 
