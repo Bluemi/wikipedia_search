@@ -52,7 +52,7 @@ def iterate_chunks(data_file: str, num_samples: int, dim: int, normalize: bool) 
     with open(data_file, 'rb') as df:
         for min_index in range(0, num_samples, CHUNK_SIZE):
             data_bytes = df.read(dim * CHUNK_SIZE * 4)
-            chunk = np.frombuffer(data_bytes, dtype=np.float32).reshape(CHUNK_SIZE, dim)
+            chunk = np.frombuffer(data_bytes, dtype=np.float32).reshape(-1, dim)
             if normalize:
                 chunk = l2_normalize(chunk)
             yield chunk
