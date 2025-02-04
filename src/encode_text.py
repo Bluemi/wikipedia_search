@@ -9,12 +9,12 @@ import blingfire
 
 from tqdm import tqdm
 
-from models import ModelPipeline, l2_normalize
+from models import ModelPipeline
 
 DEFAULT_DATA_PATH = 'data/input/dewiki-latest-pages-articles-multistream1.xml-p1p297012.bz2'
 BATCH_SIZE = 1024
 MIN_WORDS_PER_PART = 20
-MODEL = 'jina'
+MODEL = 'jina_clip'
 
 
 def get_link(title, section=None) -> str:
@@ -96,7 +96,9 @@ def encode_summaries():
     all_features = []
     current_batch = []
     links = []
-    for article in tqdm(iterate_summary_files(args.data), total=n_articles):
+    for index, article in enumerate(tqdm(iterate_summary_files(args.data), total=n_articles)):
+        if args.n and index == args.n:
+            break
         link = get_link(article.title)
 
         # add title
@@ -186,6 +188,8 @@ def load_model(model, dry):
             model = ModelPipeline.create_e5_base_sts_en_de()
         elif model == 'jina':
             model = ModelPipeline.create_jina_embeddings_v3()
+        elif model == 'jina_clip':
+            model = ModelPipeline.create_jina_clip_v2()
         else:
             raise ValueError('Unknown model: {}'.format(model))
         print('done', flush=True)
