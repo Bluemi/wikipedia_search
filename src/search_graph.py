@@ -41,6 +41,7 @@ def main():
         metric = 'cosine' if args.normalize else 'l2'
         index = hnswlib.Index(space=metric, dim=dim)
         index.load_index(os.path.join(args.indir, 'index.hnsw'))
+        index.set_ef(1200)
     print('done', flush=True)
 
     # loading links
