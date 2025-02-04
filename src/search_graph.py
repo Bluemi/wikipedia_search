@@ -28,7 +28,8 @@ def main():
 
     # loading model
     print('loading model... ', end='', flush=True)
-    model = ModelPipeline.create_jina_embeddings_v3()
+    # model = ModelPipeline.create_jina_embeddings_v3()
+    model = ModelPipeline.create_jina_clip_v2()
     print('done', flush=True)
 
     # loading index

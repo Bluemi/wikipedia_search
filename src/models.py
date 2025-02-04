@@ -1,6 +1,8 @@
+import os
 from typing import List
 
 import torch
+import open_clip
 from transformers import AutoTokenizer, AutoModel
 
 
@@ -29,9 +31,28 @@ class ModelPipeline:
         model = AutoModel.from_pretrained("jinaai/jina-clip-v2", trust_remote_code=True)
         return ModelPipeline('jinaai/jina-clip-v2', tokenizer, model)
 
+    @staticmethod
+    def create_mcip_vit_l14():
+        model_path = os.environ.get('MCIP_VIT_L14_PATH')
+        if model_path is None:
+            raise ValueError('Environment variable MCIP_VIT_L14_PATH is not set')
+        name = "ViT-L-14-336"
+        model, _, transform = open_clip.create_model_and_transforms(name, pretrained="openai")
+
+        tokenizer = open_clip.get_tokenizer(name)
+
+        mcip_state_dict = torch.load(model_path)
+        model.load_state_dict(mcip_state_dict, strict=True)
+
+        return ModelPipeline(name, tokenizer, model)
+
     def __call__(self, texts: List[str]):
         if self.name == 'jinaai/jina-clip-v2':
             return self.model.encode_text(texts)
+        if self.name == 'ViT-L-14-336':
+            tokens = self.tokenizer(texts).to(self.device)
+            with torch.no_grad():
+                return self.model.encode_text(tokens).cpu().numpy()
         tokens = self.tokenizer(texts, padding=True, truncation=True, return_tensors="pt")
         tokens = {key: val.to(self.device) for key, val in tokens.items()}
         result = self.model(**tokens)

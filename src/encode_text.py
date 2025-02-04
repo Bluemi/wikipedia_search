@@ -12,9 +12,9 @@ from tqdm import tqdm
 from models import ModelPipeline
 
 DEFAULT_DATA_PATH = 'data/input/dewiki-latest-pages-articles-multistream1.xml-p1p297012.bz2'
-BATCH_SIZE = 1024
+BATCH_SIZE = 256
 MIN_WORDS_PER_PART = 20
-MODEL = 'jina_clip'
+MODEL = 'mcip_vit_l14'
 
 
 def get_link(title, section=None) -> str:
@@ -190,6 +190,8 @@ def load_model(model, dry):
             model = ModelPipeline.create_jina_embeddings_v3()
         elif model == 'jina_clip':
             model = ModelPipeline.create_jina_clip_v2()
+        elif model == 'mcip_vit_l14':
+            model = ModelPipeline.create_mcip_vit_l14()
         else:
             raise ValueError('Unknown model: {}'.format(model))
         print('done', flush=True)
