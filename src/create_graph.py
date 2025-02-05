@@ -61,8 +61,7 @@ def iterate_chunks(data_file: str, num_samples: int, dim: int, normalize: bool) 
 def build_hnsw_index(dim, num_samples, data_file: str, normalize: bool):
     metric = 'cosine' if normalize else 'l2'
     index = hnswlib.Index(space=metric, dim=dim)
-    index.init_index(max_elements=num_samples, ef_construction=200, M=16)
-    index.set_ef(10)
+    index.init_index(max_elements=num_samples, ef_construction=400, M=24)
     index.set_num_threads(6)
 
     n_chunks = num_samples // CHUNK_SIZE + 1
