@@ -10,6 +10,7 @@ import blingfire
 from tqdm import tqdm
 
 from models import ModelPipeline
+from utils import load_page_views, load_title_to_page_info, normalize_title
 
 DEFAULT_DATA_PATH = 'data/input/dewiki-latest-pages-articles-multistream1.xml-p1p297012.bz2'
 BATCH_SIZE = 256
@@ -39,7 +40,9 @@ def encode_dump_file():
     import mwxml
     import wiki_parser
     args = parse_args()
-    model = load_model(MODEL, args.dry)
+    model = None
+    if not args.dry:
+        model = load_model(MODEL)
 
     links = []
     all_features = []
@@ -83,51 +86,64 @@ def encode_dump_file():
 
 
 def count_articles(data_path):
-    return sum(1 for _ in tqdm(iterate_summary_files(data_path, fast=True)))
+    return sum(1 for _ in tqdm(iterate_summary_files(data_path, fast=True), desc='counting articles'))
 
 
 def encode_summaries():
     args = parse_args()
 
-    model = load_model(MODEL, args.dry)
+    model = None
+    if not args.dry:
+        model = load_model(MODEL)
 
     n_articles = count_articles(args.data)
 
+    title_to_views = load_title_to_page_info()
+
     all_features = []
     current_batch = []
-    links = []
+    meta_info = []
     for index, article in enumerate(tqdm(iterate_summary_files(args.data), total=n_articles)):
         if args.n and index == args.n:
             break
         link = get_link(article.title)
 
+        page_id = -1
+        views = 0
+        normed_title = normalize_title(article.title)
+        if normed_title in title_to_views:
+            page_id = title_to_views[normed_title].page_id
+            views = title_to_views[normed_title].views
+
         # add title
-        links.append(link)
+        meta_info.append({'link': link, 'title': article.title, 'page_id': page_id, 'views': views})
         current_batch = add_to_batch(article.title, current_batch, model, all_features)
 
         # add summary
         if article.summary:
-            links.append(link)
+            meta_info.append({'link': link, 'title': article.title, 'page_id': page_id})
             current_batch = add_to_batch(article.summary[0], current_batch, model, all_features)
 
     extract_features(all_features, current_batch, model)
 
     if not args.dry:
-        dump_results(args.outdir, all_features, links)
+        dump_results(args.outdir, all_features, meta_info)
 
-    print('num links={}  num_features={}'.format(len(links), sum(f.shape[0] for f in all_features)))
+    print('num links={}  num_features={}'.format(len(meta_info), sum(f.shape[0] for f in all_features)))
 
 
-def dump_results(outdir, all_features, links):
+def dump_results(outdir, all_features, meta_info):
     output_file = os.path.join(outdir, 'features.bin')
     dump_vectors_to_binary(output_file, all_features)
     print(f'Features saved to {output_file}')
-    link_file = os.path.join(outdir, 'links.txt')
-    with open(link_file, 'w') as f:
-        f.write('\n'.join(links))
+
+    meta_file = os.path.join(outdir, 'meta.json')
+    with open(meta_file, 'w') as f:
+        json.dump(meta_info, f)
+
     description = {
         'dim': all_features[0].shape[1],
-        'num_samples': len(links)
+        'num_samples': len(meta_info)
     }
     with open(os.path.join(outdir, 'description.json'), 'w') as f:
         json.dump(description, f, indent=2)
@@ -179,22 +195,19 @@ def iterate_summary_files(summary_dir, fast=False) -> Iterator[ArticleSummary]:
             yield ArticleSummary(current_title, current_content)
 
 
-def load_model(model, dry):
-    if dry:
-        model = None
+def load_model(model):
+    print('loading model... ', end='', flush=True)
+    if model == 'e5_base':
+        model = ModelPipeline.create_e5_base_sts_en_de()
+    elif model == 'jina':
+        model = ModelPipeline.create_jina_embeddings_v3()
+    elif model == 'jina_clip':
+        model = ModelPipeline.create_jina_clip_v2()
+    elif model == 'mcip_vit_l14':
+        model = ModelPipeline.create_mcip_vit_l14()
     else:
-        print('loading model... ', end='', flush=True)
-        if model == 'e5_base':
-            model = ModelPipeline.create_e5_base_sts_en_de()
-        elif model == 'jina':
-            model = ModelPipeline.create_jina_embeddings_v3()
-        elif model == 'jina_clip':
-            model = ModelPipeline.create_jina_clip_v2()
-        elif model == 'mcip_vit_l14':
-            model = ModelPipeline.create_mcip_vit_l14()
-        else:
-            raise ValueError('Unknown model: {}'.format(model))
-        print('done', flush=True)
+        raise ValueError('Unknown model: {}'.format(model))
+    print('done', flush=True)
     return model
 
 
