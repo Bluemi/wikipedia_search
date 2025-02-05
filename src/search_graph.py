@@ -33,11 +33,11 @@ class Index:
             index.set_ef(1200)
         self.index = index
 
-    def search_query(self, query: np.ndarray):
+    def search_query(self, query: np.ndarray, k: int = 20):
         if self.index_type == 'deglib':
-            indices, diffs = self.index.search(query, 0.2, 20)
+            indices, diffs = self.index.search(query, 0.2, k)
         elif self.index_type == 'hnsw':
-            indices, diffs = self.index.knn_query(query, k=20, filter=None)
+            indices, diffs = self.index.knn_query(query, k=k, filter=None)
         else:
             raise ValueError('Unknown index type: {}'.format(self.index_type))
         return indices, diffs
