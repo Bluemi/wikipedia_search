@@ -121,7 +121,7 @@ def encode_summaries():
 
         # add summary
         if article.summary:
-            meta_info.append({'link': link, 'title': article.title, 'page_id': page_id})
+            meta_info.append({'link': link, 'title': article.title, 'page_id': page_id, 'views': views})
             current_batch = add_to_batch(article.summary[0], current_batch, model, all_features)
 
     extract_features(all_features, current_batch, model)
