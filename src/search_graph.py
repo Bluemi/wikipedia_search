@@ -1,4 +1,5 @@
 import argparse
+import dataclasses
 import json
 import os
 import time
@@ -8,6 +9,7 @@ import hnswlib
 import numpy as np
 
 from models import ModelPipeline
+from tables import Table
 from utils import l2_normalize, quantize_data
 
 
@@ -43,6 +45,19 @@ class Index:
         return indices, diffs
 
 
+@dataclasses.dataclass
+class ResultEntry:
+    title: str
+    link: str
+    distance: float
+    views: int
+
+    def sort_key(self):
+        # return self.distance / 200 - np.sqrt(self.views)
+        view_factor = ((1000 / (1000 + self.views)) - 1) * 0.6 + 1
+        return self.distance * view_factor
+
+
 def main():
     args = parse_args()
 
@@ -66,12 +81,12 @@ def main():
 
     # loading links
     print('loading links... ', end='', flush=True)
-    with open(os.path.join(args.indir, 'links.txt'), 'r') as f:
-        links = f.read().split('\n')
+    with open(os.path.join(args.indir, 'meta.json'), 'r') as f:
+        meta_info = json.load(f)
     print('done', flush=True)
 
     while True:
-        search_text = input('\nEnter search text: ')
+        search_text = input('Enter search text: ')
         start_time = time.perf_counter()
         if not search_text:
             break
@@ -80,11 +95,20 @@ def main():
             search_feature = l2_normalize(search_feature)
         if args.quantize:
             search_feature = quantize_data(search_feature, max_val=0.4)
-        indices, diffs = index.search_query(search_feature)
-        end_time = time.perf_counter()
+        indices, diffs = index.search_query(search_feature, k=200)
+        result_entries = []
         for i, d in zip(indices[0], diffs[0]):
-            print(links[i], d)
-        print('results in {:.3f}s'.format(end_time - start_time), flush=True)
+            meta_entry = meta_info[i]
+            result_entries.append(ResultEntry(meta_entry['title'], meta_entry['link'], d, meta_entry['views']))
+
+        result_entries.sort(key=lambda e: e.sort_key())
+        end_time = time.perf_counter()
+
+        table = Table(('Title', 'Link', 'Views', 'Distance', 'Value'))
+        for e in result_entries[:20]:
+            table.line(title=e.title, link=e.link, views=e.views, distance=int(e.distance), value=e.sort_key())
+        print(table)
+        print('results in {:.3f}s\n'.format(end_time - start_time), flush=True)
 
 
 if __name__ == '__main__':
