@@ -8,17 +8,14 @@ import deglib
 import hnswlib
 import numpy as np
 
-from models import ModelPipeline
+from models import load_model
 from tables import Table
 from utils import l2_normalize, quantize_data
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('index_type', choices=['hnsw', 'deglib'], help='the index type to use. Either "hnsw" or "deglib".')
     parser.add_argument('indir', type=str)
-    parser.add_argument('--normalize', action='store_true', help='normalize vectors before adding to index')
-    parser.add_argument('--quantize', action='store_true', help='quantize vectors before adding to index')
     return parser.parse_args()
 
 
@@ -66,17 +63,17 @@ def main():
         description = json.load(f)
 
     dim = description['dim']
+    model_name = description['model']
+    quantize = description['quantize']
+    normalize = description['normalize']
+    index_type = description['index_type']
 
     # loading model
-    print('loading model... ', end='', flush=True)
-    # model = ModelPipeline.create_jina_embeddings_v3()
-    model = ModelPipeline.create_jina_clip_v2()
-    # model = ModelPipeline.create_mcip_vit_l14()
-    print('done', flush=True)
+    model = load_model(model_name)
 
     # loading index
     print('loading graph... ', end='', flush=True)
-    index = Index(args.indir, args.index_type, dim, args.normalize)
+    index = Index(args.indir, index_type, dim, normalize)
     print('done', flush=True)
 
     # loading links
@@ -91,9 +88,9 @@ def main():
         if not search_text:
             break
         search_feature = model(search_text)
-        if args.normalize:
+        if normalize:
             search_feature = l2_normalize(search_feature)
-        if args.quantize:
+        if quantize:
             search_feature = quantize_data(search_feature, max_val=0.4)
         indices, diffs = index.search_query(search_feature, k=200)
         result_entries = []
@@ -101,7 +98,7 @@ def main():
             meta_entry = meta_info[i]
             result_entries.append(ResultEntry(meta_entry['title'], meta_entry['link'], d, meta_entry['views']))
 
-        result_entries.sort(key=lambda e: e.sort_key())
+        result_entries.sort(key=lambda en: en.sort_key())
         end_time = time.perf_counter()
 
         table = Table(('Title', 'Link', 'Views', 'Distance', 'Value'))

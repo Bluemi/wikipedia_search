@@ -16,7 +16,9 @@ CHUNK_SIZE = 1024
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('index_type', choices=['hnsw', 'deglib'], help='the index type to use. Either "hnsw" or "deglib".')
+    parser.add_argument(
+        'index_type', choices=['hnsw', 'deglib'], help='the index type to use. Either "hnsw" or "deglib".'
+    )
     parser.add_argument('indir')
     parser.add_argument('--normalize', action='store_true', help='normalize vectors before adding to index')
     parser.add_argument('--quantize', action='store_true', help='quantize vectors before adding to index')
@@ -45,6 +47,12 @@ def main():
         )
         index.save_graph(os.path.join(args.indir, 'index.deg'))
 
+    description['normalize'] = args.normalize
+    description['quantize'] = args.quantize
+    description['index_type'] = args.index_type
+    with open(os.path.join(args.indir, 'description.json'), 'w') as f:
+        json.dump(description, f, indent=2)
+
 
 def get_num_pages(indir):
     with open(os.path.join(indir, 'links.txt'), 'r') as f:
@@ -53,17 +61,20 @@ def get_num_pages(indir):
     return len(pages)
 
 
-def iterate_chunks(data_file: str, num_samples: int, dim: int, normalize: bool) -> Iterator[np.ndarray]:
+def iterate_chunks(data_file: str, num_samples: int, dim: int, normalize: bool, quantize: bool) -> Iterator[np.ndarray]:
     with open(data_file, 'rb') as df:
         for min_index in range(0, num_samples, CHUNK_SIZE):
             data_bytes = df.read(dim * CHUNK_SIZE * 4)
             chunk = np.frombuffer(data_bytes, dtype=np.float32).reshape(-1, dim)
             if normalize:
                 chunk = l2_normalize(chunk)
+            if quantize:
+                chunk = quantize_data(chunk, max_val=0.4)
+
             yield chunk
 
 
-def build_hnsw_index(dim, num_samples, data_file: str, normalize: bool):
+def build_hnsw_index(dim, num_samples, data_file: str, normalize: bool, quantize: bool):
     metric = 'cosine' if normalize else 'l2'
     index = hnswlib.Index(space=metric, dim=dim)
     index.init_index(max_elements=num_samples, ef_construction=400, M=24)
@@ -72,7 +83,7 @@ def build_hnsw_index(dim, num_samples, data_file: str, normalize: bool):
     n_chunks = num_samples // CHUNK_SIZE + 1
 
     start_time = time.perf_counter()
-    for chunk in tqdm(iterate_chunks(data_file, num_samples, dim, normalize), total=n_chunks):
+    for chunk in tqdm(iterate_chunks(data_file, num_samples, dim, normalize, quantize), total=n_chunks):
         index.add_items(chunk)
     print('Added {} data points after {:5.1f}s\n'.format(num_samples, time.perf_counter() - start_time), flush=True)
 
@@ -93,15 +104,11 @@ def build_deglib_from_data(
     labels = np.arange(num_samples, dtype=np.uint32)
     n_chunks = num_samples // CHUNK_SIZE + 1
 
-    for chunk_index, chunk in enumerate(tqdm(iterate_chunks(data_file, num_samples, dim, normalize), total=n_chunks)):
+    for chunk_index, chunk in enumerate(
+            tqdm(iterate_chunks(data_file, num_samples, dim, normalize, quantize), total=n_chunks)
+    ):
         min_index = chunk_index * CHUNK_SIZE
         max_index = min(min_index + CHUNK_SIZE, num_samples)
-
-        if normalize:
-            chunk = l2_normalize(chunk)
-
-        if quantize:
-            chunk = quantize_data(chunk, max_val=0.4)
 
         builder.add_entry(
             labels[min_index:max_index],

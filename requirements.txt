@@ -4,3 +4,4 @@ torch
 spacy
 hnswlib
 deglib
+blingfire

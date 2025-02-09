@@ -9,13 +9,12 @@ import blingfire
 
 from tqdm import tqdm
 
-from models import ModelPipeline
-from utils import load_page_views, load_title_to_page_info, normalize_title
+from models import load_model, get_models
+from utils import load_title_to_page_info, normalize_title
 
-DEFAULT_DATA_PATH = 'data/input/dewiki-latest-pages-articles-multistream1.xml-p1p297012.bz2'
 BATCH_SIZE = 256
 MIN_WORDS_PER_PART = 20
-MODEL = 'mcip_vit_l14'
+DEFAULT_MODEL = 'jina_clip'
 
 
 def get_link(title, section=None) -> str:
@@ -30,6 +29,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('data', type=str)
     parser.add_argument('outdir', type=str)
+    parser.add_argument('--model', type=str, choices=list(get_models().keys()), default='jina_clip')
     parser.add_argument('--dry', '-d', action='store_true')
     parser.add_argument('-n', type=int, default=0)
     return parser.parse_args()
@@ -42,7 +42,7 @@ def encode_dump_file():
     args = parse_args()
     model = None
     if not args.dry:
-        model = load_model(MODEL)
+        model = load_model(args.model)
 
     links = []
     all_features = []
@@ -94,7 +94,7 @@ def encode_summaries():
 
     model = None
     if not args.dry:
-        model = load_model(MODEL)
+        model = load_model(args.model)
 
     n_articles = count_articles(args.data)
 
@@ -127,12 +127,12 @@ def encode_summaries():
     extract_features(all_features, current_batch, model)
 
     if not args.dry:
-        dump_results(args.outdir, all_features, meta_info)
+        dump_results(args.outdir, all_features, meta_info, args.model)
 
     print('num links={}  num_features={}'.format(len(meta_info), sum(f.shape[0] for f in all_features)))
 
 
-def dump_results(outdir, all_features, meta_info):
+def dump_results(outdir, all_features, meta_info, model):
     output_file = os.path.join(outdir, 'features.bin')
     dump_vectors_to_binary(output_file, all_features)
     print(f'Features saved to {output_file}')
@@ -143,7 +143,8 @@ def dump_results(outdir, all_features, meta_info):
 
     description = {
         'dim': all_features[0].shape[1],
-        'num_samples': len(meta_info)
+        'num_samples': len(meta_info),
+        'model': model,
     }
     with open(os.path.join(outdir, 'description.json'), 'w') as f:
         json.dump(description, f, indent=2)
@@ -193,22 +194,6 @@ def iterate_summary_files(summary_dir, fast=False) -> Iterator[ArticleSummary]:
 
         if current_content:
             yield ArticleSummary(current_title, current_content)
-
-
-def load_model(model):
-    print('loading model... ', end='', flush=True)
-    if model == 'e5_base':
-        model = ModelPipeline.create_e5_base_sts_en_de()
-    elif model == 'jina':
-        model = ModelPipeline.create_jina_embeddings_v3()
-    elif model == 'jina_clip':
-        model = ModelPipeline.create_jina_clip_v2()
-    elif model == 'mcip_vit_l14':
-        model = ModelPipeline.create_mcip_vit_l14()
-    else:
-        raise ValueError('Unknown model: {}'.format(model))
-    print('done', flush=True)
-    return model
 
 
 def extract_features(all_features, batch, model):
