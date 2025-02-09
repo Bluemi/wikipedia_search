@@ -92,6 +92,9 @@ def count_articles(data_path):
 def encode_summaries():
     args = parse_args()
 
+    if not os.path.exists(args.outdir):
+        os.makedirs(args.outdir)
+
     model = None
     if not args.dry:
         model = load_model(args.model)
